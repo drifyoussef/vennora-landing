@@ -3,11 +3,15 @@
  * besoin que de huit symboles, une librairie complète pèserait plus lourd
  * que la page entière.
  */
-type IconProps = { className?: string };
+type IconProps = { className?: string; style?: React.CSSProperties };
 
 const base = "size-5 shrink-0";
 
-function Svg({ className, children }: IconProps & { children: React.ReactNode }) {
+function Svg({
+  className,
+  style,
+  children,
+}: IconProps & { children: React.ReactNode }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,6 +21,7 @@ function Svg({ className, children }: IconProps & { children: React.ReactNode })
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className ?? base}
+      style={style}
       aria-hidden="true"
     >
       {children}

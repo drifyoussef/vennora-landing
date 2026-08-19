@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { IconArrow } from "./icons";
+import { useMouvementReduit } from "@/lib/mouvement";
+import { getMetier } from "@/data/metiers";
 
 /**
  * Les métiers, en carrousel.
@@ -24,7 +26,6 @@ const METIERS = [
     exemples: ["Cheminée", "Poêle à granulés", "Insert"],
     photo: "/metiers/ramonage.svg",
     categorie: "Entretien réglementaire",
-    catalogue: { equipements: 8, interventions: 5 },
   },
   {
     slug: "chauffage",
@@ -35,7 +36,6 @@ const METIERS = [
     exemples: ["Chaudière gaz", "Pompe à chaleur", "Plancher chauffant"],
     photo: "/metiers/chauffage.svg",
     categorie: "Entretien et dépannage",
-    catalogue: { equipements: 9, interventions: 6 },
   },
   {
     slug: "climatisation",
@@ -46,7 +46,6 @@ const METIERS = [
     exemples: ["Split mural", "Gainable", "VRV / VRF"],
     photo: "/metiers/climatisation.svg",
     categorie: "Froid et traitement d’air",
-    catalogue: { equipements: 9, interventions: 6 },
   },
   {
     slug: "serrurier",
@@ -57,7 +56,6 @@ const METIERS = [
     exemples: ["Porte blindée", "Rideau métallique", "Contrôle d’accès"],
     photo: "/metiers/serrurier.svg",
     categorie: "Urgence et sécurité",
-    catalogue: { equipements: 10, interventions: 7 },
   },
   {
     slug: "piscine",
@@ -68,7 +66,6 @@ const METIERS = [
     exemples: ["Filtration", "Électrolyseur", "Volet"],
     photo: "/metiers/piscine.svg",
     categorie: "Entretien saisonnier",
-    catalogue: { equipements: 10, interventions: 7 },
   },
   {
     slug: "nuisibles",
@@ -79,7 +76,6 @@ const METIERS = [
     exemples: ["Poste d’appâtage", "Piège lumineux", "Zone sensible"],
     photo: "/metiers/nuisibles.svg",
     categorie: "Lutte intégrée",
-    catalogue: { equipements: 7, interventions: 8 },
   },
   {
     slug: "traitement-eau",
@@ -90,7 +86,6 @@ const METIERS = [
     exemples: ["Adoucisseur", "Osmoseur", "Stérilisateur UV"],
     photo: "/metiers/traitement-eau.svg",
     categorie: "Qualité de l’eau",
-    catalogue: { equipements: 9, interventions: 7 },
   },
 ];
 
@@ -155,13 +150,7 @@ const FLECHE =
 export function Trades() {
   const [actif, setActif] = useState(0);
   const [pause, setPause] = useState(false);
-  const [auto, setAuto] = useState(true);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setAuto(false);
-    }
-  }, []);
+  const auto = !useMouvementReduit();
 
   useEffect(() => {
     if (!auto || pause) return;
@@ -265,6 +254,7 @@ export function Trades() {
           {METIERS.map((m, k) => {
             const d = distance(k, actif);
             const st = styleCarte(d);
+            const catalogue = getMetier(m.slug);
             return (
               <article
                 key={m.slug}
@@ -327,12 +317,12 @@ export function Trades() {
                     sur téléphone. */}
                 <div className="border-line text-ink-soft mt-auto flex items-center gap-2 border-t pt-4 text-[12.5px] whitespace-nowrap">
                   <span className="font-semibold" style={{ color: m.couleur }}>
-                    {m.catalogue.equipements}
+                    {catalogue?.equipements.length}
                   </span>
                   équipements
                   <span className="bg-line size-1 rounded-full" />
                   <span className="font-semibold" style={{ color: m.couleur }}>
-                    {m.catalogue.interventions}
+                    {catalogue?.interventions.length}
                   </span>
                   types d’intervention
                 </div>

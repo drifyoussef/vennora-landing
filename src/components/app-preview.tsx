@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useMouvementReduit } from "@/lib/mouvement";
 
 /**
  * Démonstration jouée en boucle dans le héros.
@@ -332,33 +333,23 @@ const RENDU: Record<string, () => React.ReactElement> = {
 /* ------------------------------------------------------------------ fenêtre */
 
 export function AppPreview() {
-  const [i, setI] = useState(0);
-  const [anime, setAnime] = useState(true);
+  // La scène courante et la précédente sont tenues ensemble : la sortante doit
+  // rester montée le temps du glissement, et l’entrante l’être dès l’instant
+  // du changement pour que ses animations partent du début.
+  const [{ i, prec }, setEtape] = useState({ i: 0, prec: 0 });
   // Le survol suspend la boucle : on ne se bat pas contre un visiteur qui
   // s’est arrêté sur une étape pour la lire.
   const [pause, setPause] = useState(false);
-  // Scènes dont le contenu est monté. Pendant le défilé il en faut deux : la
-  // sortante doit rester visible jusqu’au bout du glissement, et l’entrante
-  // être montée pour que ses animations partent du début.
-  const [montees, setMontees] = useState<number[]>([0]);
 
-  useEffect(() => {
-    setMontees((v) => (v.includes(i) ? v : [...v, i]));
-    const id = setTimeout(() => setMontees([i]), 900);
-    return () => clearTimeout(id);
-  }, [i]);
-
-  useEffect(() => {
-    const doux = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (doux.matches) {
-      setAnime(false);
-      setI(3);
-    }
-  }, []);
+  const anime = !useMouvementReduit();
+  const aller = (k: number) => setEtape((e) => ({ i: k, prec: e.i }));
 
   useEffect(() => {
     if (!anime || pause) return;
-    const id = setTimeout(() => setI((v) => (v + 1) % SCENES.length), SCENES[i].duree);
+    const id = setTimeout(
+      () => setEtape((e) => ({ i: (e.i + 1) % SCENES.length, prec: e.i })),
+      SCENES[i].duree,
+    );
     return () => clearTimeout(id);
   }, [i, anime, pause]);
 
@@ -407,7 +398,7 @@ export function AppPreview() {
               <button
                 key={s.id}
                 type="button"
-                onClick={() => setI(k)}
+                onClick={() => aller(k)}
                 aria-label={`Voir l’étape : ${s.label}`}
                 className={
                   "flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[11.5px] font-medium transition-colors duration-500 hover:bg-white/10 " +
@@ -438,7 +429,7 @@ export function AppPreview() {
                   const Contenu = RENDU[s.id];
                   return (
                     <div key={s.id} className="w-full min-w-0 shrink-0 p-4 sm:p-5">
-                      {montees.includes(k) && <Contenu />}
+                      {(k === i || k === prec) && <Contenu />}
                     </div>
                   );
                 })}

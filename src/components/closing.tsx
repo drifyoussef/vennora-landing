@@ -1,5 +1,9 @@
+import Link from "next/link";
 import { IconArrow, IconCheck } from "./icons";
 import { Wordmark } from "./mark";
+import { EssaiForm } from "./essai-form";
+import { SITE } from "@/config/site";
+import { METIERS } from "@/data/metiers";
 
 /* -------------------------------------------------------------------------
    Tarifs
@@ -238,7 +242,7 @@ export function Pricing() {
 }
 
 /* ------------------------------------------------------------------------- */
-const QUESTIONS = [
+export const QUESTIONS: [string, string][] = [
   [
     "Combien de temps pour démarrer ?",
     "Une demi-journée. On importe votre fichier clients, on crée vos techniciens, on colle les premières étiquettes. Le reste se remplit intervention après intervention.",
@@ -296,11 +300,14 @@ export function Faq() {
   );
 }
 
-/* ------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------
+   Demande d’essai. Le formulaire remplace le lien `mailto:` : un bouton qui
+   promet un essai et ouvre un client mail perd la moitié des visiteurs.
+------------------------------------------------------------------------- */
 export function Demo() {
   return (
     <section id="demo" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
-      <div className="bg-petrol-deep grain relative isolate overflow-hidden rounded-3xl px-7 py-14 text-white sm:px-14 sm:py-20">
+      <div className="bg-petrol-deep grain relative isolate overflow-hidden rounded-3xl px-7 py-14 text-white sm:px-14 sm:py-16">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 -z-10"
@@ -309,35 +316,38 @@ export function Demo() {
               "radial-gradient(40rem 24rem at 20% 0%, rgba(217,122,40,0.28), transparent 62%), radial-gradient(36rem 22rem at 90% 100%, rgba(79,168,199,0.18), transparent 60%)",
           }}
         />
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-semibold sm:text-[2.6rem] sm:leading-[1.1]">
-            Trente minutes, votre métier, vos vraies interventions
-          </h2>
-          <p className="mt-5 text-lg text-white/70">
-            On ouvre l’outil sur votre cas : un de vos clients, un de vos
-            appareils, une intervention de la semaine dernière. Vous verrez le
-            rapport partir à la fin de l’appel.
-          </p>
-
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href="mailto:contact@vennora.app?subject=Démonstration%20Vennora"
-              className="bg-amber hover:bg-amber-bright rounded-xl px-6 py-3.5 text-center text-[15px] font-semibold text-white shadow-xl shadow-black/25 transition-colors"
-            >
-              Demander une démo
-            </a>
-            <a
-              href="mailto:contact@vennora.app"
-              className="rounded-xl border border-white/20 px-6 py-3.5 text-center text-[15px] font-semibold text-white/90 transition-colors hover:bg-white/10"
-            >
-              contact@vennora.app
-            </a>
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
+          <div>
+            <h2 className="text-3xl font-semibold sm:text-[2.4rem] sm:leading-[1.1]">
+              Essayez sur vos vraies interventions
+            </h2>
+            <p className="mt-5 text-lg text-white/70">
+              On ouvre un compte à votre nom, avec le catalogue de votre métier
+              déjà en place. Un de vos clients, un de vos appareils, une
+              intervention de la semaine dernière : vous verrez le rapport
+              partir à la fin de l’essai.
+            </p>
+            <ul className="mt-8 space-y-3">
+              {[
+                "Aucune carte bancaire",
+                "Vos données exportables à tout moment",
+                "Accompagnement à la reprise de votre fichier clients",
+              ].map((p) => (
+                <li key={p} className="flex items-center gap-2.5 text-[14.5px] text-white/65">
+                  <IconCheck className="text-amber size-4 shrink-0" />
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-8 text-[14px] text-white/45">
+              Vous préférez en parler ?{" "}
+              <a href={`mailto:${SITE.email}`} className="text-white/75 underline">
+                {SITE.email}
+              </a>
+            </p>
           </div>
 
-          <p className="mt-6 text-[13px] text-white/45">
-            Sans engagement · Reprise de vos données existantes · Réponse sous
-            24&nbsp;heures ouvrées
-          </p>
+          <EssaiForm />
         </div>
       </div>
     </section>
@@ -348,7 +358,7 @@ export function Demo() {
 export function Footer() {
   return (
     <footer className="border-line border-t">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-6 md:grid-cols-[1fr_1.6fr]">
         <div>
           <span className="text-petrol">
             <Wordmark />
@@ -358,28 +368,75 @@ export function Footer() {
           </p>
         </div>
 
-        <nav className="flex flex-wrap gap-x-8 gap-y-3 text-[14px]">
-          {[
-            ["#produit", "Produit"],
-            ["#terrain", "Terrain"],
-            ["#metiers", "Métiers"],
-            ["#tarifs", "Tarifs"],
-            ["mailto:contact@vennora.app", "Contact"],
-          ].map(([href, label]) => (
-            <a
-              key={label}
-              href={href}
+        <div className="grid gap-8 text-[14px] sm:grid-cols-3">
+          <nav className="flex flex-col gap-2.5">
+            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+              Produit
+            </p>
+            {[
+              ["/#produit", "Fonctionnalités"],
+              ["/#terrain", "Sur le terrain"],
+              ["/#tarifs", "Tarifs"],
+              ["/#demo", "Essai gratuit"],
+            ].map(([href, label]) => (
+              <Link
+                key={label}
+                href={href}
+                className="text-ink-soft hover:text-petrol transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav className="flex flex-col gap-2.5">
+            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+              Métiers
+            </p>
+            {METIERS.slice(0, 4).map((m) => (
+              <Link
+                key={m.slug}
+                href={`/metiers/${m.slug}`}
+                className="text-ink-soft hover:text-petrol transition-colors"
+              >
+                {m.nom}
+              </Link>
+            ))}
+            <Link
+              href="/#metiers"
               className="text-ink-soft hover:text-petrol transition-colors"
             >
-              {label}
-            </a>
-          ))}
-        </nav>
+              Tous les métiers
+            </Link>
+          </nav>
+
+          <nav className="flex flex-col gap-2.5">
+            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+              Vennora
+            </p>
+            {[
+              [`mailto:${SITE.email}`, "Contact"],
+              ["/mentions-legales", "Mentions légales"],
+              ["/confidentialite", "Confidentialité"],
+              ["/cgv", "Conditions générales"],
+            ].map(([href, label]) => (
+              <Link
+                key={label}
+                href={href}
+                className="text-ink-soft hover:text-petrol transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
 
       <div className="border-line border-t">
         <div className="text-ink-soft mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-[12.5px] sm:flex-row sm:justify-between sm:px-6">
-          <p>© {new Date().getFullYear()} Vennora. Tous droits réservés.</p>
+          <p>
+            © {new Date().getFullYear()} {SITE.nom}. Tous droits réservés.
+          </p>
           <p>Fait en France, pour des métiers qui travaillent dehors.</p>
         </div>
       </div>

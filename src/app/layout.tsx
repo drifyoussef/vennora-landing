@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
+import { Analytics } from "@/components/analytics";
+import { SITE } from "@/config/site";
 import "./globals.css";
 
 const geist = Geist({
@@ -13,7 +15,7 @@ const description =
   "Clients, équipements, planning, comptes-rendus signés : Vennora suit l’intervention du parc client au rapport envoyé. Ramonage, chauffage, climatisation, serrurerie, piscine, nuisibles, traitement de l’eau.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vennora.app"),
+  metadataBase: new URL(SITE.domaine),
   title,
   description,
   applicationName: "Vennora",
@@ -26,15 +28,29 @@ export const metadata: Metadata = {
     "rapport d’intervention",
     "GMAO terrain",
   ],
+  alternates: { canonical: "/" },
   openGraph: {
     title,
     description,
     type: "website",
     locale: "fr_FR",
-    siteName: "Vennora",
+    siteName: SITE.nom,
+    url: SITE.domaine,
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Vennora — du parc client au rapport signé",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image", title, description },
-  icons: { icon: [{ url: "/vennora.svg", type: "image/svg+xml" }] },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = {
@@ -46,7 +62,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" className={geist.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

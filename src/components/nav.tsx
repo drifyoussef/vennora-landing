@@ -5,6 +5,8 @@ const LINKS = [
   { href: "#terrain", label: "Terrain" },
   { href: "#metiers", label: "Métiers" },
   { href: "#tarifs", label: "Tarifs" },
+  // Le bloc d’essai porte aussi l’adresse de contact : un seul point d’arrivée.
+  { href: "#demo", label: "Contact" },
 ];
 
 export function Nav() {
