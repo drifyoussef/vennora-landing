@@ -1,0 +1,308 @@
+import { IconArrow, IconCheck } from "./icons";
+import { Wordmark } from "./mark";
+
+/* -------------------------------------------------------------------------
+   Tarifs
+
+   ⚠️ Les montants ci-dessous sont des valeurs d’attente, à remplacer par la
+   grille réelle avant toute mise en ligne. Ils sont regroupés ici, dans un
+   seul tableau, précisément pour être changés en trente secondes.
+------------------------------------------------------------------------- */
+const OFFRES = [
+  {
+    nom: "Essentiel",
+    prix: "39 €",
+    unite: "par technicien et par mois",
+    pitch: "Pour l’artisan seul ou le binôme qui veut arrêter le papier.",
+    inclus: [
+      "Clients, sites, équipements",
+      "Planning et interventions",
+      "Photos et anomalies",
+      "Rapport PDF signé",
+      "Étiquettes QR illimitées",
+    ],
+    accent: false,
+  },
+  {
+    nom: "Équipe",
+    prix: "59 €",
+    unite: "par technicien et par mois",
+    pitch: "Pour l’entreprise de trois à vingt techniciens, avec un bureau.",
+    inclus: [
+      "Tout l’offre Essentiel",
+      "Dictée et compte-rendu assisté",
+      "Rappels d’échéance automatiques",
+      "Rôles et permissions fines",
+      "Envoi des rapports par e-mail",
+      "Support sous 24 h ouvrées",
+    ],
+    accent: true,
+  },
+  {
+    nom: "Réseau",
+    prix: "Sur devis",
+    unite: "plusieurs agences, plusieurs métiers",
+    pitch: "Pour les groupes multi-sites et les enseignes en franchise.",
+    inclus: [
+      "Toute l’offre Équipe",
+      "Plusieurs métiers dans un même compte",
+      "Exports et intégrations",
+      "Reprise de vos données existantess",
+      "Accompagnement au déploiement",
+    ],
+    accent: false,
+  },
+];
+
+export function Pricing() {
+  return (
+    <section id="tarifs" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">
+      <div className="max-w-2xl">
+        <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
+          Tarifs
+        </p>
+        <h2 className="text-ink mt-3 text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
+          Un prix par technicien, rien d’autre
+        </h2>
+        <p className="text-ink-soft mt-5 text-lg">
+          Pas de frais de mise en service, pas de palier sur le nombre de
+          clients ou d’équipements. Un mois d’essai, sans engagement.
+        </p>
+      </div>
+
+      <div className="mt-14 grid items-start gap-6 lg:grid-cols-3">
+        {OFFRES.map((o) => (
+          <div
+            key={o.nom}
+            className={
+              "reveal relative rounded-2xl border p-7 " +
+              (o.accent
+                ? "border-petrol bg-petrol text-white shadow-2xl shadow-black/15 lg:-mt-4 lg:pb-9"
+                : "border-line bg-white")
+            }
+          >
+            {o.accent && (
+              <span className="bg-amber absolute -top-3 left-7 rounded-full px-3 py-1 text-[11px] font-semibold text-white">
+                Le plus choisi
+              </span>
+            )}
+
+            <h3
+              className={
+                "text-[17px] font-semibold " + (o.accent ? "text-white" : "text-ink")
+              }
+            >
+              {o.nom}
+            </h3>
+            <p
+              className={
+                "mt-1.5 text-[13.5px] " +
+                (o.accent ? "text-white/60" : "text-ink-soft")
+              }
+            >
+              {o.pitch}
+            </p>
+
+            <div className="mt-6 flex items-baseline gap-2">
+              <span
+                className={
+                  "text-4xl font-semibold tracking-tight " +
+                  (o.accent ? "text-white" : "text-ink")
+                }
+              >
+                {o.prix}
+              </span>
+            </div>
+            <p
+              className={
+                "mt-1 text-[12.5px] " +
+                (o.accent ? "text-white/50" : "text-ink-soft")
+              }
+            >
+              {o.unite}
+            </p>
+
+            <a
+              href="#demo"
+              className={
+                "mt-7 flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14.5px] font-semibold transition-colors " +
+                (o.accent
+                  ? "bg-amber hover:bg-amber-bright text-white"
+                  : "bg-petrol hover:bg-petrol-deep text-white")
+              }
+            >
+              Demander une démo <IconArrow className="size-4" />
+            </a>
+
+            <ul className="mt-7 space-y-3">
+              {o.inclus.map((f) => (
+                <li key={f} className="flex items-start gap-2.5">
+                  <IconCheck
+                    className={
+                      "mt-0.5 size-4 shrink-0 " +
+                      (o.accent ? "text-amber" : "text-petrol")
+                    }
+                  />
+                  <span
+                    className={
+                      "text-[14px] " +
+                      (o.accent ? "text-white/80" : "text-ink-soft")
+                    }
+                  >
+                    {f}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------------- */
+const QUESTIONS = [
+  [
+    "Combien de temps pour démarrer ?",
+    "Une demi-journée. On importe votre fichier clients, on crée vos techniciens, on colle les premières étiquettes. Le reste se remplit intervention après intervention.",
+  ],
+  [
+    "Et si mes techniciens n’aiment pas les logiciels ?",
+    "C’est le cas le plus fréquent. L’application terrain tient en trois écrans : ouvrir l’intervention, photographier, signer. Rien à apprendre, aucun paramétrage à faire sur le chantier.",
+  ],
+  [
+    "Le compte-rendu rédigé automatiquement, c’est fiable ?",
+    "Il n’est jamais envoyé sans relecture. Vennora propose un brouillon à partir des notes dictées, structuré selon les sections de votre métier ; le technicien corrige et valide. L’origine du texte reste tracée dans le dossier.",
+  ],
+  [
+    "Que deviennent mes données si j’arrête ?",
+    "Elles vous appartiennent. Un export complet, clients, équipements, interventions et rapports PDF, est fourni sur simple demande.",
+  ],
+  [
+    "Ça remplace ma facturation ?",
+    "Non, et c’est délibéré. Vennora couvre l’intervention et sa preuve. Le devis et la facture restent chez votre outil de gestion, que l’on alimente en exports.",
+  ],
+];
+
+export function Faq() {
+  return (
+    <section className="border-line bg-sand/60 border-t">
+      <div className="mx-auto max-w-3xl px-5 py-20 sm:px-6 sm:py-24">
+        <h2 className="text-ink text-3xl font-semibold sm:text-[2.2rem]">
+          Questions fréquentes
+        </h2>
+
+        <div className="mt-10 divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">
+          {QUESTIONS.map(([q, r]) => (
+            <details key={q} className="group py-5">
+              <summary className="text-ink flex cursor-pointer list-none items-center justify-between gap-6 text-[16.5px] font-medium">
+                {q}
+                <span
+                  aria-hidden="true"
+                  className="border-line text-ink-soft grid size-7 shrink-0 place-items-center rounded-full border transition-transform group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="text-ink-soft mt-3 max-w-2xl text-[15px] leading-relaxed">
+                {r}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------------- */
+export function Demo() {
+  return (
+    <section id="demo" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
+      <div className="bg-petrol-deep grain relative isolate overflow-hidden rounded-3xl px-7 py-14 text-white sm:px-14 sm:py-20">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(40rem 24rem at 20% 0%, rgba(217,122,40,0.28), transparent 62%), radial-gradient(36rem 22rem at 90% 100%, rgba(79,168,199,0.18), transparent 60%)",
+          }}
+        />
+        <div className="max-w-2xl">
+          <h2 className="text-3xl font-semibold sm:text-[2.6rem] sm:leading-[1.1]">
+            Trente minutes, votre métier, vos vraies interventions
+          </h2>
+          <p className="mt-5 text-lg text-white/70">
+            On ouvre l’outil sur votre cas : un de vos clients, un de vos
+            appareils, une intervention de la semaine dernière. Vous verrez le
+            rapport partir à la fin de l’appel.
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a
+              href="mailto:contact@vennora.app?subject=Démonstration%20Vennora"
+              className="bg-amber hover:bg-amber-bright rounded-xl px-6 py-3.5 text-center text-[15px] font-semibold text-white shadow-xl shadow-black/25 transition-colors"
+            >
+              Demander une démo
+            </a>
+            <a
+              href="mailto:contact@vennora.app"
+              className="rounded-xl border border-white/20 px-6 py-3.5 text-center text-[15px] font-semibold text-white/90 transition-colors hover:bg-white/10"
+            >
+              contact@vennora.app
+            </a>
+          </div>
+
+          <p className="mt-6 text-[13px] text-white/45">
+            Sans engagement · Reprise de vos données existantes · Réponse sous
+            24&nbsp;heures ouvrées
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------------- */
+export function Footer() {
+  return (
+    <footer className="border-line border-t">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <span className="text-petrol">
+            <Wordmark />
+          </span>
+          <p className="text-ink-soft mt-3 max-w-xs text-[13.5px]">
+            Gérez vos interventions. Maîtrisez vos équipements.
+          </p>
+        </div>
+
+        <nav className="flex flex-wrap gap-x-8 gap-y-3 text-[14px]">
+          {[
+            ["#produit", "Produit"],
+            ["#terrain", "Terrain"],
+            ["#metiers", "Métiers"],
+            ["#tarifs", "Tarifs"],
+            ["mailto:contact@vennora.app", "Contact"],
+          ].map(([href, label]) => (
+            <a
+              key={label}
+              href={href}
+              className="text-ink-soft hover:text-petrol transition-colors"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <div className="border-line border-t">
+        <div className="text-ink-soft mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-[12.5px] sm:flex-row sm:justify-between sm:px-6">
+          <p>© {new Date().getFullYear()} Vennora. Tous droits réservés.</p>
+          <p>Fait en France, pour des métiers qui travaillent dehors.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}

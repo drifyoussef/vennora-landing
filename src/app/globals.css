@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Vennora — site vitrine
+   Bleu pétrole  #0F3D4C   la couleur mère, celle des barres et des titres
+   Ambre cuivré  #D97A28   l’accent : un seul par écran, il perd sa force sinon
+   Sable         #F2EDE3   le papier, pour que le blanc pur reste au produit
+--------------------------------------------------------------------------- */
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #faf8f3;
+  --color-sand: #f2ede3;
+  --color-sand-deep: #e8e0d1;
+  --color-ink: #10262e;
+  --color-ink-soft: #5c6b73;
+
+  --color-petrol: #0f3d4c;
+  --color-petrol-deep: #08222b;
+  --color-petrol-night: #061a21;
+  --color-petrol-line: #1d5768;
+
+  --color-amber: #d97a28;
+  --color-amber-bright: #ef8f3c;
+  --color-amber-soft: #fbf0e4;
+
+  --color-line: #e3dbcd;
+
+  --radius-card: 1rem;
+
+  --animate-reveal: reveal both linear;
+}
+
+
+/* --- Démo du héros ---------------------------------------------------------
+   La fenêtre produit rejoue un chantier complet en boucle. Chaque scène est
+   remontée par React, donc les animations repartent d’elles-mêmes : pas de
+   remise à zéro à écrire. --------------------------------------------------- */
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.22);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  from {
+    width: 4%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes halo {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-amber);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  /* Apparition au défilement, sans une ligne de JavaScript. Là où
+     `animation-timeline` n’existe pas, le contenu est simplement là. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal both linear;
+        animation-timeline: view();
+        animation-range: entry 0% entry 55%;
+      }
+    }
+  }
+
+  /* Grain très fin : casse le dégradé du bloc sombre, qui bande sinon sur
+     les grands aplats. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+
+  .rule {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      var(--color-line),
+      transparent
+    );
+  }
+}

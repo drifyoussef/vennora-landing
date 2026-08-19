@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="traitement-eau">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12406E"/>
+      <stop offset="100%" stop-color="#1e7fb8"/>
+    </linearGradient>
+    <radialGradient id="h" cx="0.25" cy="0.15" r="0.9">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <line x1="0" y1="0" x2="0" y2="26" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <rect width="800" height="600" fill="url(#p)"/>
+  <rect width="800" height="600" fill="url(#h)"/>
+  <g stroke="#ffffff" stroke-opacity="0.32" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M400 150c-70 96-105 158-105 196 0 58 47 104 105 104s105-46 105-104c0-38-35-100-105-196Z M400 260c-32 46-48 76-48 96 0 28 22 50 48 50"/>
+  </g>
+  <circle cx="648" cy="132" r="86" fill="#ffffff" fill-opacity="0.05"/>
+  <circle cx="132" cy="492" r="120" fill="#000000" fill-opacity="0.08"/>
+</svg>
