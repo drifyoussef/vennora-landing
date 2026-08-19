@@ -4,52 +4,65 @@ import { Wordmark } from "./mark";
 /* -------------------------------------------------------------------------
    Tarifs
 
-   ⚠️ Les montants ci-dessous sont des valeurs d’attente, à remplacer par la
-   grille réelle avant toute mise en ligne. Ils sont regroupés ici, dans un
-   seul tableau, précisément pour être changés en trente secondes.
+   Le prix est par entreprise, pas par tête : un patron de quinze techniciens
+   ne doit pas pouvoir calculer sa facture de tête et se braquer avant d’avoir
+   vu le produit. La facturation à l’utilisateur ne commence qu’au-delà du
+   forfait inclus.
+
+   ⚠️ Montants à revoir avant mise en ligne si la grille bouge : ils sont tous
+   dans ce tableau et dans les deux bandeaux qui suivent.
 ------------------------------------------------------------------------- */
 const OFFRES = [
   {
     nom: "Essentiel",
     prix: "39 €",
-    unite: "par technicien et par mois",
-    pitch: "Pour l’artisan seul ou le binôme qui veut arrêter le papier.",
+    unite: "par mois",
+    sieges: "1 utilisateur",
+    pitch: "Pour gérer ses interventions sans papier.",
     inclus: [
       "Clients, sites, équipements",
       "Planning et interventions",
       "Photos et anomalies",
-      "Rapport PDF signé",
       "Étiquettes QR illimitées",
+      "Rapport d’intervention PDF signé",
     ],
+    cta: "Essayer gratuitement",
     accent: false,
   },
   {
-    nom: "Équipe",
-    prix: "59 €",
-    unite: "par technicien et par mois",
-    pitch: "Pour l’entreprise de trois à vingt techniciens, avec un bureau.",
+    nom: "Pro",
+    prix: "99 €",
+    unite: "par mois",
+    sieges: "Jusqu’à 3 utilisateurs",
+    extra: "puis 20 € par utilisateur supplémentaire",
+    pitch: "Pour automatiser ses comptes-rendus et travailler en équipe.",
     inclus: [
-      "Tout l’offre Essentiel",
+      "Toute l’offre Essentiel",
       "Dictée et compte-rendu assisté",
       "Rappels d’échéance automatiques",
-      "Rôles et permissions fines",
       "Envoi des rapports par e-mail",
+      "Rôles et permissions",
       "Support sous 24 h ouvrées",
     ],
+    cta: "Essayer gratuitement",
     accent: true,
   },
   {
-    nom: "Réseau",
-    prix: "Sur devis",
-    unite: "plusieurs agences, plusieurs métiers",
-    pitch: "Pour les groupes multi-sites et les enseignes en franchise.",
+    nom: "Business",
+    prix: "249 €",
+    unite: "par mois",
+    sieges: "Jusqu’à 10 utilisateurs",
+    extra: "puis 20 € par utilisateur supplémentaire",
+    pitch: "Pour structurer plusieurs équipes et plusieurs sites.",
     inclus: [
-      "Toute l’offre Équipe",
-      "Plusieurs métiers dans un même compte",
-      "Exports et intégrations",
-      "Reprise de vos données existantess",
-      "Accompagnement au déploiement",
+      "Toute l’offre Pro",
+      "Permissions avancées",
+      "Plusieurs sites et plusieurs équipes",
+      "Exports et API",
+      "Intégrations comptables",
+      "Support prioritaire",
     ],
+    cta: "Demander une démo",
     accent: false,
   },
 ];
@@ -62,11 +75,12 @@ export function Pricing() {
           Tarifs
         </p>
         <h2 className="text-ink mt-3 text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
-          Un prix par technicien, rien d’autre
+          Un abonnement par entreprise, pas par tête
         </h2>
         <p className="text-ink-soft mt-5 text-lg">
-          Pas de frais de mise en service, pas de palier sur le nombre de
-          clients ou d’équipements. Un mois d’essai, sans engagement.
+          Embaucher un technicien ne doit pas coûter une licence de plus dès le
+          premier jour. Pas de frais de mise en service, pas de palier sur le
+          nombre de clients ou d’équipements. Essai gratuit, sans engagement.
         </p>
       </div>
 
@@ -75,7 +89,7 @@ export function Pricing() {
           <div
             key={o.nom}
             className={
-              "reveal relative rounded-2xl border p-7 " +
+              "reveal relative flex flex-col rounded-2xl border p-7 " +
               (o.accent
                 ? "border-petrol bg-petrol text-white shadow-2xl shadow-black/15 lg:-mt-4 lg:pb-9"
                 : "border-line bg-white")
@@ -103,35 +117,55 @@ export function Pricing() {
               {o.pitch}
             </p>
 
-            <div className="mt-6 flex items-baseline gap-2">
-              <span
+            <div className="mt-6 min-h-[6.5rem]">
+              <div className="flex items-baseline gap-2">
+                <span
+                  className={
+                    "text-4xl font-semibold tracking-tight " +
+                    (o.accent ? "text-white" : "text-ink")
+                  }
+                >
+                  {o.prix}
+                </span>
+                <span
+                  className={
+                    "text-[13.5px] " + (o.accent ? "text-white/55" : "text-ink-soft")
+                  }
+                >
+                  {o.unite}
+                </span>
+              </div>
+
+              <p
                 className={
-                  "text-4xl font-semibold tracking-tight " +
-                  (o.accent ? "text-white" : "text-ink")
+                  "mt-2 text-[13.5px] font-medium " +
+                  (o.accent ? "text-amber" : "text-petrol")
                 }
               >
-                {o.prix}
-              </span>
+                {o.sieges}
+              </p>
+              {o.extra && (
+                <p
+                  className={
+                    "mt-0.5 text-[12.5px] " +
+                    (o.accent ? "text-white/45" : "text-ink-soft")
+                  }
+                >
+                  {o.extra}
+                </p>
+              )}
             </div>
-            <p
-              className={
-                "mt-1 text-[12.5px] " +
-                (o.accent ? "text-white/50" : "text-ink-soft")
-              }
-            >
-              {o.unite}
-            </p>
 
             <a
               href="#demo"
               className={
-                "mt-7 flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14.5px] font-semibold transition-colors " +
+                "mt-1 flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14.5px] font-semibold transition-colors " +
                 (o.accent
                   ? "bg-amber hover:bg-amber-bright text-white"
                   : "bg-petrol hover:bg-petrol-deep text-white")
               }
             >
-              Demander une démo <IconArrow className="size-4" />
+              {o.cta} <IconArrow className="size-4" />
             </a>
 
             <ul className="mt-7 space-y-3">
@@ -157,6 +191,48 @@ export function Pricing() {
           </div>
         ))}
       </div>
+
+      <p className="text-ink-soft mt-8 text-center text-[13.5px]">
+        Aucune carte bancaire requise · Annulation à tout moment
+      </p>
+
+      {/* Au-delà de dix utilisateurs, le prix se discute : autant le dire. */}
+      <div className="border-line mt-6 flex flex-col gap-5 rounded-2xl border bg-white p-7 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h3 className="text-ink text-[17px] font-semibold">
+            Entreprise{" "}
+            <span className="text-ink-soft font-medium">— sur devis</span>
+          </h3>
+          <p className="text-ink-soft mt-1.5 max-w-2xl text-[14.5px]">
+            À partir de vingt utilisateurs, plusieurs agences ou plusieurs
+            métiers dans un même compte. SSO, API avancée, engagement de
+            service, reprise de vos données et accompagnement au déploiement.
+          </p>
+        </div>
+        <a
+          href="#demo"
+          className="border-petrol text-petrol hover:bg-petrol shrink-0 rounded-xl border px-5 py-3 text-center text-[14.5px] font-semibold transition-colors hover:text-white"
+        >
+          Nous écrire
+        </a>
+      </div>
+
+      {/* Offre de lancement : elle a une raison d’être — les premiers clients
+          acceptent un produit jeune contre un prix tenu dans la durée. */}
+      <div className="bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-ink text-[14.5px]">
+          <span className="text-amber font-semibold">Offre fondateur</span> —
+          79 € par mois jusqu’à trois utilisateurs, pour les premières
+          entreprises qui nous rejoignent.{" "}
+          <span className="text-ink-soft">Prix garanti deux ans.</span>
+        </p>
+        <a
+          href="#demo"
+          className="text-petrol shrink-0 text-[14.5px] font-semibold hover:underline"
+        >
+          En profiter
+        </a>
+      </div>
     </section>
   );
 }
@@ -174,6 +250,10 @@ const QUESTIONS = [
   [
     "Le compte-rendu rédigé automatiquement, c’est fiable ?",
     "Il n’est jamais envoyé sans relecture. Vennora propose un brouillon à partir des notes dictées, structuré selon les sections de votre métier ; le technicien corrige et valide. L’origine du texte reste tracée dans le dossier.",
+  ],
+  [
+    "Le prix augmente à chaque technicien embauché ?",
+    "Non. L’abonnement est celui de l’entreprise : trois utilisateurs compris dans l’offre Pro, dix dans l’offre Business. Au-delà du forfait, un utilisateur supplémentaire coûte 20 € par mois. Un renfort saisonnier ne fait pas basculer votre budget.",
   ],
   [
     "Que deviennent mes données si j’arrête ?",
