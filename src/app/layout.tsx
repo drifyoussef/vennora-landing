@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@/components/analytics";
+import { Reveal } from "@/components/reveal";
 import { SITE } from "@/config/site";
 import "./globals.css";
 
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="fr" className={geist.variable}>
       <body>
         {children}
+        <Reveal />
         <Analytics />
       </body>
     </html>

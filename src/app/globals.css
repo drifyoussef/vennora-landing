@@ -142,15 +142,100 @@
 }
 
 @layer utilities {
-  /* Apparition au défilement, sans une ligne de JavaScript. Là où
-     `animation-timeline` n’existe pas, le contenu est simplement là. */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal {
-        animation: reveal both linear;
-        animation-timeline: view();
-        animation-range: entry 0% entry 55%;
-      }
+  /* Briques de la démo du héros. */
+  .pop {
+    animation: pop 0.5s both cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide-in {
+    animation: slide-in 0.45s both cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .wave {
+    animation: wave 0.9s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .draw {
+    stroke-dasharray: 420;
+    stroke-dashoffset: 420;
+    animation: draw 1.9s 0.35s both cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fill {
+    animation: fill 2s both cubic-bezier(0.3, 0.9, 0.3, 1);
+  }
+  .halo {
+    animation: halo 1.6s ease-out infinite;
+  }
+  .caret {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Entrée de page : une cascade courte, jouée une seule fois. */
+  .rise {
+    animation: reveal 0.85s both cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ---------------------------------------------------------------------
+     Apparition au défilement.
+
+     L’état masqué n’existe que sous `.anim`, classe posée par le composant
+     `Reveal` une fois le script exécuté. Sans JavaScript — ou si le script
+     échoue — aucune de ces règles ne s’applique et le contenu est là. On ne
+     masque jamais du texte en pariant sur du code qui doit tourner.
+
+     Le décalage des cascades passe par `--retard`, un simple délai de
+     transition : ici, contrairement aux lignes de temps de défilement, les
+     secondes ont un sens.
+  --------------------------------------------------------------------- */
+  .anim :is(.reveal, .reveal-gauche, .reveal-droite, .reveal-zoom) {
+    opacity: 0;
+    transition:
+      opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--retard, 0s);
+    will-change: opacity, transform;
+  }
+  .anim .reveal {
+    transform: translateY(1.75rem);
+  }
+  .anim .reveal-gauche {
+    transform: translateX(-2.5rem);
+  }
+  .anim .reveal-droite {
+    transform: translateX(2.5rem);
+  }
+  .anim .reveal-zoom {
+    transform: scale(0.95);
+  }
+  .anim :is(.reveal, .reveal-gauche, .reveal-droite, .reveal-zoom).vu {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .reveal-1 {
+    --retard: 0.09s;
+  }
+  .reveal-2 {
+    --retard: 0.18s;
+  }
+  .reveal-3 {
+    --retard: 0.27s;
+  }
+  .reveal-4 {
+    --retard: 0.36s;
+  }
+
+  /* Personne n’a demandé un manège. */
+  @media (prefers-reduced-motion: reduce) {
+    .demo *,
+    .rise,
+    .reveal,
+    .reveal-gauche,
+    .reveal-droite,
+    .reveal-zoom {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 

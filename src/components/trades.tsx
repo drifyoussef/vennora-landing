@@ -166,7 +166,7 @@ export function Trades() {
       className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28"
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
-        <div>
+        <div className="reveal">
           <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
             Les métiers
           </p>
@@ -174,7 +174,7 @@ export function Trades() {
             Le même cœur, votre vocabulaire
           </h2>
         </div>
-        <div>
+        <div className="reveal reveal-1">
           <p className="text-ink-soft text-lg">
             Le catalogue d’équipements, les types d’intervention, les
             périodicités et les sections du compte-rendu appartiennent au
@@ -196,7 +196,7 @@ export function Trades() {
 
       {/* Les sept métiers, au-dessus du carrousel : ils servent de sommaire
           autant que de commande. */}
-      <div className="mt-12">
+      <div className="reveal reveal-1 mt-12">
         <ul className="flex flex-wrap justify-center gap-2">
           {METIERS.map((m, k) => {
             const on = k === actif;
@@ -229,7 +229,7 @@ export function Trades() {
       {/* Carrousel : le débordement latéral est voulu, il est estompé sur les
           bords pour que les cartes lointaines sortent du champ en douceur. */}
       <div
-        className="relative mt-10"
+        className="reveal-zoom relative mt-10"
         onMouseEnter={() => setPause(true)}
         onMouseLeave={() => setPause(false)}
       >

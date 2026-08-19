@@ -11,17 +11,27 @@ export default function Page() {
     <>
       <JsonLd faq={QUESTIONS} />
       <Nav />
+      {/* `data-fond` dit à la barre de navigation ce qui passe sous elle :
+          elle est transparente, son texte doit suivre le fond. */}
       <main>
-        <Hero />
-        <Chain />
-        <Features />
-        <Field />
-        <Trades />
-        <Trust />
-        <Preuve />
-        <Pricing />
-        <Faq />
-        <Demo />
+        <div data-fond="sombre">
+          <Hero />
+        </div>
+        <div data-fond="clair">
+          <Chain />
+          <Features />
+        </div>
+        <div data-fond="sombre">
+          <Field />
+        </div>
+        <div data-fond="clair">
+          <Trades />
+          <Trust />
+          <Preuve />
+          <Pricing />
+          <Faq />
+          <Demo />
+        </div>
       </main>
       <Footer />
     </>

@@ -25,7 +25,7 @@ function SectionTitle({
   inverse?: boolean;
 }) {
   return (
-    <div className="max-w-2xl">
+    <div className="reveal max-w-2xl">
       <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
         {eyebrow}
       </p>
@@ -68,7 +68,7 @@ export function Chain() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {CHAINE.map(([titre, texte], i) => (
-            <div key={titre} className="reveal relative">
+            <div key={titre} className={`reveal reveal-${i % 4} relative`}>
               <div className="flex items-center gap-2">
                 <span className="bg-petrol grid size-6 place-items-center rounded-full text-[11px] font-semibold text-white">
                   {i + 1}
@@ -138,10 +138,10 @@ export function Features() {
       />
 
       <div className="mt-14 grid gap-px overflow-hidden rounded-2xl bg-[var(--color-line)] sm:grid-cols-2 lg:grid-cols-3">
-        {FONCTIONS.map(({ icon: Icon, titre, texte }) => (
+        {FONCTIONS.map(({ icon: Icon, titre, texte }, i) => (
           <div
             key={titre}
-            className="reveal group bg-paper hover:bg-white p-7 transition-colors"
+            className={`reveal reveal-${i % 3} group bg-paper hover:bg-white p-7 transition-colors`}
           >
             <span className="bg-petrol text-amber grid size-10 place-items-center rounded-xl">
               <Icon className="size-5" />
@@ -190,7 +190,7 @@ export function Field() {
         }}
       />
       <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1fr_0.8fr]">
-        <div>
+        <div className="reveal-gauche">
           <SectionTitle
             inverse
             eyebrow="Sur le terrain"
@@ -199,8 +199,11 @@ export function Field() {
           />
 
           <dl className="mt-12 space-y-8">
-            {TERRAIN.map(([titre, texte]) => (
-              <div key={titre} className="reveal border-l-2 border-white/15 pl-5">
+            {TERRAIN.map(([titre, texte], i) => (
+              <div
+                key={titre}
+                className={`reveal reveal-${i} border-l-2 border-white/15 pl-5`}
+              >
                 <dt className="text-[16px] font-semibold text-white">{titre}</dt>
                 <dd className="mt-1.5 text-[15px] leading-relaxed text-white/60">
                   {texte}
@@ -211,7 +214,7 @@ export function Field() {
         </div>
 
         {/* Téléphone : cadre dessiné, écran d’intervention en cours. */}
-        <div className="mx-auto w-full max-w-[17rem]">
+        <div className="reveal-droite mx-auto w-full max-w-[17rem]">
           <div className="rounded-[2.2rem] border border-white/15 bg-black/40 p-2.5 shadow-2xl shadow-black/50 backdrop-blur-sm">
             <div className="bg-paper overflow-hidden rounded-[1.7rem]">
               <div className="bg-petrol px-4 pt-4 pb-5 text-white">
@@ -304,7 +307,7 @@ export function Trust() {
     <section className="border-line bg-sand/60 border-y">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
+          <div className="reveal-gauche">
             <span className="bg-petrol text-amber grid size-11 place-items-center rounded-xl">
               <IconShield className="size-5" />
             </span>
@@ -319,8 +322,8 @@ export function Trust() {
           </div>
 
           <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            {GARANTIES.map(([titre, texte]) => (
-              <div key={titre} className="reveal">
+            {GARANTIES.map(([titre, texte], i) => (
+              <div key={titre} className={`reveal reveal-${i % 2}`}>
                 <dt className="text-ink flex items-center gap-2 text-[15.5px] font-semibold">
                   <IconCheck className="text-amber size-4" />
                   {titre}

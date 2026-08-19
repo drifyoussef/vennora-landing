@@ -74,7 +74,7 @@ const OFFRES = [
 export function Pricing() {
   return (
     <section id="tarifs" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">
-      <div className="max-w-2xl">
+      <div className="reveal max-w-2xl">
         <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
           Tarifs
         </p>
@@ -89,11 +89,11 @@ export function Pricing() {
       </div>
 
       <div className="mt-14 grid items-start gap-6 lg:grid-cols-3">
-        {OFFRES.map((o) => (
+        {OFFRES.map((o, i) => (
           <div
             key={o.nom}
             className={
-              "reveal relative flex flex-col rounded-2xl border p-7 " +
+              `reveal reveal-${i} relative flex flex-col rounded-2xl border p-7 ` +
               (o.accent
                 ? "border-petrol bg-petrol text-white shadow-2xl shadow-black/15 lg:-mt-4 lg:pb-9"
                 : "border-line bg-white")
@@ -196,12 +196,12 @@ export function Pricing() {
         ))}
       </div>
 
-      <p className="text-ink-soft mt-8 text-center text-[13.5px]">
+      <p className="reveal text-ink-soft mt-8 text-center text-[13.5px]">
         Aucune carte bancaire requise · Annulation à tout moment
       </p>
 
       {/* Au-delà de dix utilisateurs, le prix se discute : autant le dire. */}
-      <div className="border-line mt-6 flex flex-col gap-5 rounded-2xl border bg-white p-7 sm:flex-row sm:items-center sm:justify-between">
+      <div className="reveal border-line mt-6 flex flex-col gap-5 rounded-2xl border bg-white p-7 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-ink text-[17px] font-semibold">
             Entreprise{" "}
@@ -223,7 +223,7 @@ export function Pricing() {
 
       {/* Offre de lancement : elle a une raison d’être — les premiers clients
           acceptent un produit jeune contre un prix tenu dans la durée. */}
-      <div className="bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="reveal bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink text-[14.5px]">
           <span className="text-amber font-semibold">Offre fondateur</span> —
           79 € par mois jusqu’à trois utilisateurs, pour les premières
@@ -273,13 +273,13 @@ export function Faq() {
   return (
     <section className="border-line bg-sand/60 border-t">
       <div className="mx-auto max-w-3xl px-5 py-20 sm:px-6 sm:py-24">
-        <h2 className="text-ink text-3xl font-semibold sm:text-[2.2rem]">
+        <h2 className="reveal text-ink text-3xl font-semibold sm:text-[2.2rem]">
           Questions fréquentes
         </h2>
 
         <div className="mt-10 divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">
-          {QUESTIONS.map(([q, r]) => (
-            <details key={q} className="group py-5">
+          {QUESTIONS.map(([q, r], i) => (
+            <details key={q} className={`reveal reveal-${i % 3} group py-5`}>
               <summary className="text-ink flex cursor-pointer list-none items-center justify-between gap-6 text-[16.5px] font-medium">
                 {q}
                 <span
@@ -307,7 +307,10 @@ export function Faq() {
 export function Demo() {
   return (
     <section id="demo" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
-      <div className="bg-petrol-deep grain relative isolate overflow-hidden rounded-3xl px-7 py-14 text-white sm:px-14 sm:py-16">
+      <div
+        data-fond="sombre"
+        className="reveal-zoom bg-petrol-deep grain relative isolate overflow-hidden rounded-3xl px-7 py-14 text-white sm:px-14 sm:py-16"
+      >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 -z-10"
