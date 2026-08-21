@@ -226,8 +226,12 @@ export function Pricing() {
       <div className="reveal bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink text-[14.5px]">
           <span className="text-amber-deep font-semibold">Offre fondateur : </span>
-          <span className="text-amber-bright line-through"> 99€</span> 79 € par mois jusqu’à trois utilisateurs, pour les premières
-          entreprises qui nous rejoignent.{" "}
+          {/* L’ancien prix est barré : il se met en retrait, il ne rivalise
+              pas avec l’accent. `amber-bright` est réservé au texte sur fond
+              sombre — ici, sur le bandeau clair, il tombe à 2,2:1. */}
+          <span className="text-ink-soft line-through">99&nbsp;€</span> 79 € par
+          mois jusqu’à trois utilisateurs, pour les premières entreprises qui
+          nous rejoignent.{" "}
           <span className="text-ink-soft">Prix garanti deux ans.</span>
         </p>
         <a
