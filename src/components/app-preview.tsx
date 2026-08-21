@@ -39,10 +39,12 @@ function useTick(max: number, pas: number) {
 /* ------------------------------------------------------------------ scènes */
 
 function Journee() {
+  // `c` porte du texte de 10 px : ce sont les variantes assombries, pas les
+  // couleurs d’état vives — celles-ci plafonnent à 3,1:1 sur du blanc.
   const lignes = [
-    { h: "08:30", client: "Résidence Les Cévennes", lieu: "Alès", etat: "Terminée", c: "#4f7b45" },
-    { h: "10:15", client: "Boulangerie Marchand", lieu: "Anduze", etat: "À faire", c: "#d97a28" },
-    { h: "14:00", client: "M. et Mme Fabre", lieu: "Saint-Jean-du-Gard", etat: "Planifiée", c: "#6b7780" },
+    { h: "08:30", client: "Résidence Les Cévennes", lieu: "Alès", etat: "Terminée", c: "#4f7a45" },
+    { h: "10:15", client: "Boulangerie Marchand", lieu: "Anduze", etat: "À faire", c: "#a95e1e" },
+    { h: "14:00", client: "M. et Mme Fabre", lieu: "Saint-Jean-du-Gard", etat: "Planifiée", c: "#66727a" },
   ];
   return (
     <div>
@@ -123,7 +125,7 @@ function Chantier() {
       <div className="mt-3 flex items-center justify-between">
         <span className="text-ink-soft text-[11px]">{photos} photo{photos > 1 ? "s" : ""} ajoutée{photos > 1 ? "s" : ""}</span>
         {photos >= 4 && (
-          <span className="pop rounded-full bg-[#e2610f14] px-2.5 py-1 text-[10px] font-semibold text-[#e2610f]">
+          <span className="pop rounded-full bg-[#e2610f14] px-2.5 py-1 text-[10px] font-semibold text-[#ba500c]">
             Anomalie · trappe inaccessible
           </span>
         )}
@@ -391,7 +393,7 @@ export function AppPreview() {
         <div className="flex">
           {/* Barre latérale : le rail des étapes sert de fil conducteur. */}
           <div className="bg-petrol hidden w-40 shrink-0 flex-col gap-1 p-3 sm:flex">
-            <p className="px-2.5 pt-1 pb-3 text-[10px] font-semibold tracking-[0.14em] text-white/40 uppercase">
+            <p className="px-2.5 pt-1 pb-3 text-[10px] font-semibold tracking-[0.14em] text-white/60 uppercase">
               Ramonage Cévennes
             </p>
             {SCENES.map((s, k) => (
@@ -402,7 +404,7 @@ export function AppPreview() {
                 aria-label={`Voir l’étape : ${s.label}`}
                 className={
                   "flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[11.5px] font-medium transition-colors duration-500 hover:bg-white/10 " +
-                  (k === i ? "bg-white/12 text-white" : "text-white/45")
+                  (k === i ? "bg-white/12 text-white" : "text-white/60")
                 }
               >
                 <span
@@ -456,7 +458,7 @@ export function AppPreview() {
         </div>
       </div>
 
-      <p className="mt-4 text-center text-[12.5px] text-white/45">
+      <p className="mt-4 text-center text-[12.5px] text-white/60">
         Démonstration en temps réel · une intervention, du chantier au rapport envoyé
       </p>
     </div>

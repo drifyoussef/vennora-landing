@@ -53,7 +53,7 @@ export function Hero() {
               style={{ animationDelay: "90ms" }}
             >
               Du parc client au rapport signé,{" "}
-              <span className="text-amber">sans ressaisie</span>.
+              <span className="text-amber-bright">sans ressaisie</span>.
             </h1>
 
             <p
@@ -72,7 +72,7 @@ export function Hero() {
             >
               <a
                 href="#demo"
-                className="bg-amber hover:bg-amber-bright rounded-xl px-6 py-3.5 text-[15px] font-semibold text-white shadow-xl shadow-black/25 transition-colors"
+                className="bg-amber-deep hover:bg-amber-dark rounded-xl px-6 py-3.5 text-[15px] font-semibold text-white shadow-xl shadow-black/25 transition-colors"
               >
                 Demander une démo
               </a>
@@ -109,12 +109,12 @@ export function Hero() {
           className="rise mt-auto border-t border-white/10 pt-7 [@media(max-height:780px)]:hidden"
           style={{ animationDelay: "480ms" }}
         >
-          <p className="text-[11px] font-semibold tracking-[0.16em] text-white/35 uppercase">
+          <p className="text-[11px] font-semibold tracking-[0.16em] text-white/60 uppercase">
             Un cœur commun, une application par métier
           </p>
           <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
             {METIERS.map((m) => (
-              <li key={m} className="text-[15px] font-medium text-white/55">
+              <li key={m} className="text-[15px] font-medium text-white/65">
                 {m}
               </li>
             ))}

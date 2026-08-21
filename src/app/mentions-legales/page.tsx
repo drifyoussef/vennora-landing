@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { AvertissementIdentite, PageShell } from "@/components/page-shell";
 import { Footer } from "@/components/closing";
 import { SITE, IDENTITE_INCOMPLETE } from "@/config/site";
+import { metadonnees } from "@/lib/metadonnees";
 
-export const metadata: Metadata = {
-  title: "Mentions légales",
+export const metadata = metadonnees({
+  titre: "Mentions légales — Vennora",
   description: `Éditeur, hébergeur et propriété intellectuelle du site ${SITE.nom}.`,
-  robots: { index: false, follow: true },
-};
+  chemin: "/mentions-legales",
+  indexable: false,
+});
 
 export default function MentionsLegales() {
   const e = SITE.editeur;

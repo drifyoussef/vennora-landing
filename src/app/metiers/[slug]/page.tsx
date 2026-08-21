@@ -6,6 +6,7 @@ import { Footer } from "@/components/closing";
 import { IconArrow, IconCheck } from "@/components/icons";
 import { METIERS, getMetier } from "@/data/metiers";
 import { SITE } from "@/config/site";
+import { metadonnees } from "@/lib/metadonnees";
 
 /**
  * Une page par métier.
@@ -29,17 +30,12 @@ export async function generateMetadata({
   if (!m) return {};
   const titre = `${m.requete.charAt(0).toUpperCase()}${m.requete.slice(1)} — ${SITE.nom}`;
   const description = `${m.nom} : suivi du parc, planning, photos, comptes-rendus signés et échéances. ${m.equipements.length} types d’équipement et ${m.interventions.length} types d’intervention livrés d’office.`;
-  return {
-    title: titre,
+  return metadonnees({
+    titre,
     description,
-    alternates: { canonical: `${SITE.domaine}/metiers/${m.slug}` },
-    openGraph: {
-      title: titre,
-      description,
-      url: `${SITE.domaine}/metiers/${m.slug}`,
-      type: "article",
-    },
-  };
+    chemin: `/metiers/${m.slug}`,
+    type: "article",
+  });
 }
 
 const APPORTS = [
@@ -81,7 +77,7 @@ export default async function MetierPage({
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/#demo"
-              className="bg-amber hover:bg-amber-bright rounded-xl px-5 py-3 text-[15px] font-semibold text-white transition-colors"
+              className="bg-amber-deep hover:bg-amber-dark rounded-xl px-5 py-3 text-[15px] font-semibold text-white transition-colors"
             >
               Essayer gratuitement
             </Link>
@@ -124,7 +120,7 @@ export default async function MetierPage({
                 <li key={e} className="flex items-start gap-2.5">
                   <IconCheck
                     className="mt-0.5 size-4 shrink-0"
-                    style={{ color: m.couleur }}
+                    style={{ color: m.couleurTexte }}
                   />
                   <span className="text-ink-soft text-[14px]">{e}</span>
                 </li>
@@ -140,7 +136,7 @@ export default async function MetierPage({
                 <li key={e} className="flex items-start gap-2.5">
                   <IconCheck
                     className="mt-0.5 size-4 shrink-0"
-                    style={{ color: m.couleur }}
+                    style={{ color: m.couleurTexte }}
                   />
                   <span className="text-ink-soft text-[14px]">{e}</span>
                 </li>

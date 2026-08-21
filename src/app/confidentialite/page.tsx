@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { AvertissementIdentite, PageShell } from "@/components/page-shell";
 import { Footer } from "@/components/closing";
 import { SITE, IDENTITE_INCOMPLETE } from "@/config/site";
+import { metadonnees } from "@/lib/metadonnees";
 
-export const metadata: Metadata = {
-  title: "Politique de confidentialité",
+export const metadata = metadonnees({
+  titre: "Politique de confidentialité — Vennora",
   description:
     "Données collectées, finalités, durées de conservation et droits des personnes concernées.",
-  robots: { index: false, follow: true },
-};
+  chemin: "/confidentialite",
+  indexable: false,
+});
 
 export default function Confidentialite() {
   return (

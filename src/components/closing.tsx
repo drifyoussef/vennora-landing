@@ -75,7 +75,7 @@ export function Pricing() {
   return (
     <section id="tarifs" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">
       <div className="reveal max-w-2xl">
-        <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
+        <p className="text-amber-deep text-[11px] font-semibold tracking-[0.16em] uppercase">
           Tarifs
         </p>
         <h2 className="text-ink mt-3 text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
@@ -100,7 +100,7 @@ export function Pricing() {
             }
           >
             {o.accent && (
-              <span className="bg-amber absolute -top-3 left-7 rounded-full px-3 py-1 text-[11px] font-semibold text-white">
+              <span className="bg-amber-deep absolute -top-3 left-7 rounded-full px-3 py-1 text-[11px] font-semibold text-white">
                 Le plus choisi
               </span>
             )}
@@ -133,7 +133,7 @@ export function Pricing() {
                 </span>
                 <span
                   className={
-                    "text-[13.5px] " + (o.accent ? "text-white/55" : "text-ink-soft")
+                    "text-[13.5px] " + (o.accent ? "text-white/65" : "text-ink-soft")
                   }
                 >
                   {o.unite}
@@ -143,7 +143,7 @@ export function Pricing() {
               <p
                 className={
                   "mt-2 text-[13.5px] font-medium " +
-                  (o.accent ? "text-amber" : "text-petrol")
+                  (o.accent ? "text-amber-bright" : "text-petrol")
                 }
               >
                 {o.sieges}
@@ -152,7 +152,7 @@ export function Pricing() {
                 <p
                   className={
                     "mt-0.5 text-[12.5px] " +
-                    (o.accent ? "text-white/45" : "text-ink-soft")
+                    (o.accent ? "text-white/60" : "text-ink-soft")
                   }
                 >
                   {o.extra}
@@ -165,7 +165,7 @@ export function Pricing() {
               className={
                 "mt-1 flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14.5px] font-semibold transition-colors " +
                 (o.accent
-                  ? "bg-amber hover:bg-amber-bright text-white"
+                  ? "bg-amber-deep hover:bg-amber-dark text-white"
                   : "bg-petrol hover:bg-petrol-deep text-white")
               }
             >
@@ -178,7 +178,7 @@ export function Pricing() {
                   <IconCheck
                     className={
                       "mt-0.5 size-4 shrink-0 " +
-                      (o.accent ? "text-amber" : "text-petrol")
+                      (o.accent ? "text-amber-bright" : "text-petrol")
                     }
                   />
                   <span
@@ -225,8 +225,8 @@ export function Pricing() {
           acceptent un produit jeune contre un prix tenu dans la durée. */}
       <div className="reveal bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink text-[14.5px]">
-          <span className="text-amber font-semibold">Offre fondateur</span> —
-          79 € par mois jusqu’à trois utilisateurs, pour les premières
+          <span className="text-amber-deep font-semibold">Offre fondateur : </span>
+          <span className="text-amber-bright line-through"> 99€</span> 79 € par mois jusqu’à trois utilisateurs, pour les premières
           entreprises qui nous rejoignent.{" "}
           <span className="text-ink-soft">Prix garanti deux ans.</span>
         </p>
@@ -342,7 +342,7 @@ export function Demo() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 text-[14px] text-white/45">
+            <p className="mt-8 text-[14px] text-white/60">
               Vous préférez en parler ?{" "}
               <a href={`mailto:${SITE.email}`} className="text-white/75 underline">
                 {SITE.email}
@@ -396,7 +396,10 @@ export function Footer() {
             <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
               Métiers
             </p>
-            {METIERS.slice(0, 4).map((m) => (
+            {/* Les sept, pas quatre : le pied de page est le seul endroit du
+                site où elles tiennent toutes, et trois d’entre elles n’étaient
+                atteignables que par le plan du site. */}
+            {METIERS.map((m) => (
               <Link
                 key={m.slug}
                 href={`/metiers/${m.slug}`}
@@ -405,20 +408,22 @@ export function Footer() {
                 {m.nom}
               </Link>
             ))}
-            <Link
-              href="/#metiers"
-              className="text-ink-soft hover:text-petrol transition-colors"
-            >
-              Tous les métiers
-            </Link>
           </nav>
 
           <nav className="flex flex-col gap-2.5">
             <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
               Vennora
             </p>
+            {/* `Contact` est un `mailto:` : une ancre nue, pas un `Link`. Le
+                routeur le laisse passer, mais confier une adresse de courrier
+                à un composant de navigation interne n’a pas de sens. */}
+            <a
+              href={`mailto:${SITE.email}`}
+              className="text-ink-soft hover:text-petrol transition-colors"
+            >
+              Contact
+            </a>
             {[
-              [`mailto:${SITE.email}`, "Contact"],
               ["/mentions-legales", "Mentions légales"],
               ["/confidentialite", "Confidentialité"],
               ["/cgv", "Conditions générales"],

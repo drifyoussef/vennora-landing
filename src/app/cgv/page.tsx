@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { AvertissementIdentite, PageShell } from "@/components/page-shell";
 import { Footer } from "@/components/closing";
 import { SITE, IDENTITE_INCOMPLETE } from "@/config/site";
+import { metadonnees } from "@/lib/metadonnees";
 
-export const metadata: Metadata = {
-  title: "Conditions générales",
+export const metadata = metadonnees({
+  titre: "Conditions générales — Vennora",
   description:
     "Conditions générales d’utilisation et de vente du service Vennora : abonnement, essai, données, résiliation.",
-  robots: { index: false, follow: true },
-};
+  chemin: "/cgv",
+  indexable: false,
+});
 
 export default function Cgv() {
   return (

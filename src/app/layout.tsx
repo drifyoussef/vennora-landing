@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { Analytics } from "@/components/analytics";
 import { Reveal } from "@/components/reveal";
 import { SITE } from "@/config/site";
+import { metadonnees } from "@/lib/metadonnees";
 import "./globals.css";
 
 const geist = Geist({
@@ -17,8 +18,6 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domaine),
-  title,
-  description,
   applicationName: "Vennora",
   keywords: [
     "logiciel intervention",
@@ -29,29 +28,7 @@ export const metadata: Metadata = {
     "rapport d’intervention",
     "GMAO terrain",
   ],
-  alternates: { canonical: "/" },
-  openGraph: {
-    title,
-    description,
-    type: "website",
-    locale: "fr_FR",
-    siteName: SITE.nom,
-    url: SITE.domaine,
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Vennora — du parc client au rapport signé",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-    images: ["/og.png"],
-  },
+  ...metadonnees({ titre: title, description, chemin: "/" }),
 };
 
 export const viewport: Viewport = {
@@ -62,8 +39,24 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={geist.variable}>
+    /* `data-scroll-behavior` n’est pas décoratif : c’est lui qui répare les
+       liens du pied de page.
+
+       `globals.css` pose `scroll-behavior: smooth` sur `<html>` pour que les
+       ancres de l’accueil glissent. Jusqu’à Next 15, le routeur neutralisait
+       ce réglage le temps d’un changement de page ; Next 16 ne le fait plus
+       — sauf si cet attribut est présent (guide de migration, « Scroll
+       Behavior Override »).
+
+       Sans lui, cliquer « Conditions générales » depuis le pied de page
+       ouvrait la nouvelle page à l’endroit où l’on était, tout en bas, puis
+       la faisait remonter en glissant. On atterrissait au pied des mentions
+       légales, ce qui donne l’impression d’un site cassé. */
+    <html lang="fr" data-scroll-behavior="smooth" className={geist.variable}>
       <body>
+        <a href="#contenu" className="saut">
+          Aller au contenu
+        </a>
         {children}
         <Reveal />
         <Analytics />

@@ -4,8 +4,19 @@ import { METIERS } from "@/data/metiers";
 
 export const dynamic = "force-static";
 
+/**
+ * Plan du site.
+ *
+ * Ne contient que ce qu’on veut voir indexé. Les pages juridiques portent un
+ * `robots: noindex` : les lister ici reviendrait à demander l’indexation d’une
+ * page qui la refuse, contradiction que les moteurs signalent en rapport de
+ * couverture.
+ *
+ * `lastModified` vient de `SITE.majContenu`, pas de `new Date()` : la date du
+ * build n’a rien à voir avec celle du contenu.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const maj = new Date();
+  const maj = new Date(SITE.majContenu);
   return [
     { url: SITE.domaine, lastModified: maj, changeFrequency: "monthly", priority: 1 },
     ...METIERS.map((m) => ({
@@ -14,9 +25,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    // Les pages juridiques sont utiles aux humains, pas aux moteurs.
-    { url: `${SITE.domaine}/mentions-legales`, lastModified: maj, priority: 0.1 },
-    { url: `${SITE.domaine}/confidentialite`, lastModified: maj, priority: 0.1 },
-    { url: `${SITE.domaine}/cgv`, lastModified: maj, priority: 0.1 },
   ];
 }

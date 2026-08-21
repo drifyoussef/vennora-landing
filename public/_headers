@@ -1,0 +1,35 @@
+# En-têtes HTTP — Netlify, Cloudflare Pages.
+#
+# Le site est exporté en statique : `output: "export"` dans next.config.ts.
+# Dans ce mode, Next n'émet aucun en-tête — la fonction `headers()` de la
+# configuration n'est jamais appelée, puisqu'il n'y a pas de serveur Next en
+# production. Les en-têtes doivent donc venir de l'hébergeur, et ce fichier
+# est copié tel quel dans `out/` au build.
+#
+# Vercel lit `vercel.json` à la racine, pas ce fichier : les deux listes sont
+# à tenir ensemble. Derrière un nginx, transposer en `add_header`.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  # CSP volontairement réduite à ce qui protège sans rien casser :
+  # interdiction d'être mis en cadre, de voir la base des URL relatives
+  # réécrite, et d'être détourné vers un envoi de formulaire ailleurs.
+  # Une `script-src` complète demanderait des empreintes pour les scripts
+  # en ligne de Next et du JSON-LD ; avec 'unsafe-inline' elle ne protégerait
+  # de rien, et c'est ainsi qu'on se donne l'illusion d'être couvert.
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+# Les fichiers de /_next/static/ portent une empreinte dans leur nom : ils ne
+# changent jamais à URL constante, ils peuvent être gardés un an.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Les pages, elles, doivent être revalidées : sinon un visiteur garde des
+# semaines la version d'avant la mise en ligne des mentions légales.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

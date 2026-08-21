@@ -39,7 +39,7 @@ export function Preuve() {
   return (
     <section className="border-line bg-sand/60 border-y">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
-        <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
+        <p className="text-amber-deep text-[11px] font-semibold tracking-[0.16em] uppercase">
           Ils l’utilisent
         </p>
         <h2 className="text-ink mt-3 max-w-2xl text-3xl font-semibold sm:text-[2.2rem]">

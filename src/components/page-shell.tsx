@@ -25,7 +25,7 @@ export function PageShell({
       <header className="border-line border-b">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-5 sm:px-6">
           <Link
-            href="/"
+            href="/#haut"
             className="text-petrol flex items-center gap-2.5 transition-opacity hover:opacity-70"
           >
             <VennoraMark className="size-6" />
@@ -42,7 +42,7 @@ export function PageShell({
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-5 py-14 sm:px-6 sm:py-20">
+      <main id="contenu" className="mx-auto max-w-4xl px-5 py-14 sm:px-6 sm:py-20">
         <h1 className="text-ink text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
           {titre}
         </h1>
@@ -61,7 +61,7 @@ export function AvertissementIdentite() {
   return (
     <div className="border-amber/40 bg-amber-soft/60 mt-8 rounded-xl border border-dashed p-4">
       <p className="text-ink text-[14px]">
-        <span className="text-amber font-semibold">À compléter</span> — les
+        <span className="text-amber-deep font-semibold">À compléter</span> — les
         champs marqués « À COMPLÉTER » viennent de{" "}
         <code className="bg-sand rounded px-1.5 py-0.5 text-[13px]">
           src/config/site.ts

@@ -21,8 +21,28 @@
   --color-petrol-night: #061a21;
   --color-petrol-line: #1d5768;
 
+  /* ---------------------------------------------------------------------
+     L’ambre, en trois valeurs.
+
+     Une seule ne peut pas tenir les deux emplois : porter du blanc (bouton)
+     et se lire sur le pétrole (texte d’accent). #D97A28 échoue aux deux —
+     3,1:1 sous du blanc, 3,7:1 sur le pétrole, là où AA demande 4,5:1 pour
+     du texte. On sépare donc les rôles, et le nom dit l’usage.
+
+       amber        décor seulement — pastilles, jauges, dégradés, icônes.
+                    Jamais du texte, jamais un fond qui porte du texte.
+       amber-bright texte d’accent sur fond sombre   (4,83:1 sur pétrole)
+       amber-deep   texte d’accent sur fond clair    (5,12:1 sur le papier)
+                    et fond des boutons              (5,43:1 sous du blanc)
+       amber-dark   survol des boutons               (7,02:1 sous du blanc)
+
+     Pour retrouver l’ambre d’origine sur les boutons, il suffit de rendre
+     `--color-amber-deep` à #d97a28 : rien d’autre n’est à toucher.
+  --------------------------------------------------------------------- */
   --color-amber: #d97a28;
   --color-amber-bright: #ef8f3c;
+  --color-amber-deep: #a35510;
+  --color-amber-dark: #8a4710;
   --color-amber-soft: #fbf0e4;
 
   --color-line: #e3dbcd;
@@ -262,73 +282,152 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Pages de texte (juridique, métiers). Pas de plugin typographique : trois
-   règles suffisent, et elles restent lisibles dans le dépôt.
+   Ces règles vivent dans `components`, pas hors couche.
+
+   Tailwind déclare `@layer theme, base, components, utilities`. Du CSS écrit
+   hors de toute couche l’emporte sur du CSS en couche, quelle que soit la
+   spécificité : `.prose-vennora .not-prose *` battait donc `text-white` et
+   `text-[14.5px]`, et le bouton « Demander une démo » des pages métier
+   s’affichait en gris encre 16 px sur son fond pétrole — 2,1:1. On remet
+   l’ensemble dans `components`, d’où les utilitaires reprennent la main.
 --------------------------------------------------------------------------- */
-.prose-vennora {
-  color: var(--color-ink-soft);
-  font-size: 16px;
-  line-height: 1.75;
-}
-.prose-vennora h2 {
-  color: var(--color-ink);
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-top: 2.75rem;
-  margin-bottom: 0.75rem;
-}
-.prose-vennora h3 {
-  color: var(--color-ink);
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-top: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-.prose-vennora p + p,
-.prose-vennora ul,
-.prose-vennora ol,
-.prose-vennora table {
-  margin-top: 1rem;
-}
-.prose-vennora ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-}
-.prose-vennora ol {
-  list-style: decimal;
-  padding-left: 1.25rem;
-}
-.prose-vennora li + li {
-  margin-top: 0.4rem;
-}
-.prose-vennora strong {
-  color: var(--color-ink);
-  font-weight: 600;
-}
-.prose-vennora a {
-  color: var(--color-petrol);
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.prose-vennora .not-prose,
-.prose-vennora .not-prose * {
-  color: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-.prose-vennora .not-prose ul {
-  list-style: none;
-  padding-left: 0;
-}
-.prose-vennora dl {
-  margin-top: 1rem;
-}
-.prose-vennora dt {
-  color: var(--color-ink);
-  font-weight: 600;
-  margin-top: 0.85rem;
+@layer components {
+  /* ---------------------------------------------------------------------------
+     Pages de texte (juridique, métiers). Pas de plugin typographique : trois
+     règles suffisent, et elles restent lisibles dans le dépôt.
+  --------------------------------------------------------------------------- */
+  .prose-vennora {
+    color: var(--color-ink-soft);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+  .prose-vennora h2 {
+    color: var(--color-ink);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 2.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-vennora h3 {
+    color: var(--color-ink);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-vennora p + p,
+  .prose-vennora ul,
+  .prose-vennora ol,
+  .prose-vennora table {
+    margin-top: 1rem;
+  }
+  .prose-vennora ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-vennora ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+  .prose-vennora li + li {
+    margin-top: 0.4rem;
+  }
+  .prose-vennora strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .prose-vennora a {
+    color: var(--color-petrol);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  /* -------------------------------------------------------------------
+     `.not-prose` — la sortie de la typographie, pour les blocs qui ont
+     leur propre mise en forme.
+
+     Elle doit valoir pour l’élément marqué autant que pour sa descendance.
+     La version précédente ne visait que la descendance (`.not-prose ul`) :
+     un `<ul class="not-prose">` — le cas des pastilles « Les autres
+     métiers » — gardait donc sa puce, son alinéa de 20 px, et surtout le
+     `li + li { margin-top: 0.4rem }` qui, dans une rangée en `flex`,
+     décalait chaque pastille de 6 px vers le bas sauf la première. Le
+     soulignement des liens, lui, n’était annulé nulle part.
+
+     `:is()` prend la spécificité de son argument le plus fort : ces règles
+     pèsent (0,2,0) et l’emportent donc sur `.prose-vennora li + li`. Les
+     utilitaires Tailwind restent au-dessus, ils sont dans une couche
+     postérieure.
+  ------------------------------------------------------------------- */
+  .prose-vennora :is(.not-prose, .not-prose *) {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin-top: 0;
+    text-decoration: none;
+  }
+  .prose-vennora :is(ul, ol):is(.not-prose, .not-prose *) {
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-vennora dl {
+    margin-top: 1rem;
+  }
+  .prose-vennora dt {
+    color: var(--color-ink);
+    font-weight: 600;
+    margin-top: 0.85rem;
+  }
+  /* ---------------------------------------------------------------------------
+     Leurre anti-robot du formulaire.
+
+     Un champ que personne ne voit, que les robots remplissent. On le sort du
+     champ visuel plutôt que de le masquer avec `display: none` ou `hidden` :
+     les robots un peu sérieux ignorent les champs ainsi masqués, et le leurre
+     ne servirait plus à rien. `tabindex` et `aria-hidden` sont posés sur le
+     conteneur, côté JSX, pour que ni le clavier ni un lecteur d’écran ne
+     tombent dessus.
+  --------------------------------------------------------------------------- */
+  .leurre {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* ---------------------------------------------------------------------------
+     Lien d’évitement.
+
+     Première cible de la tabulation, invisible tant qu’elle n’a pas le focus.
+     Sans lui, arriver au clavier sur une page signifie traverser la barre, le
+     logo et cinq liens de navigation avant d’atteindre le texte — à chaque
+     page. On ne le cache pas avec `display: none`, qui le retirerait aussi du
+     parcours clavier : on le sort du champ, il revient au focus.
+  --------------------------------------------------------------------------- */
+  .saut {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-150%);
+    transition: transform 0.18s ease-out;
+    background: var(--color-petrol);
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 0.65rem 1.1rem;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .saut:focus-visible {
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .saut {
+      transition: none;
+    }
+  }
 }
 
 /* ---------------------------------------------------------------------------

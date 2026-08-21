@@ -1,0 +1,25 @@
+# Le site n'a pas de tests — il n'a pas de logique à tester. Il a en revanche
+# trois choses qui cassent silencieusement : un type qui ne compile plus, une
+# règle de lint enfreinte, et un build qui échoue. Les trois passent inaperçus
+# tant que personne ne relance la commande à la main, et le déploiement se
+# contente alors de servir la version précédente.
+name: Vérifications
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build

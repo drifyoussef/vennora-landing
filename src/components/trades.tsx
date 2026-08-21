@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconArrow } from "./icons";
 import { useMouvementReduit } from "@/lib/mouvement";
-import { getMetier } from "@/data/metiers";
+import { METIERS } from "@/data/metiers";
 
 /**
  * Les métiers, en carrousel.
@@ -15,80 +16,13 @@ import { getMetier } from "@/data/metiers";
  *
  * Les visuels de `public/metiers/` sont des images d’attente, à remplacer par
  * de vraies photos de chantier — même chemin, cadrage carré ou 4:3.
+ *
+ * Le contenu des cartes vient de `src/data/metiers.ts`, comme le reste du
+ * site. Il a longtemps été recopié ici : deux listes des mêmes sept métiers,
+ * dont une seule était tenue à jour. Une carte mène désormais à la page du
+ * métier — sans ce lien, ces sept pages n’étaient atteignables que par le
+ * plan du site, et quatre d’entre elles par le pied de page.
  */
-const METIERS = [
-  {
-    slug: "ramonage",
-    nom: "Ramonage",
-    couleur: "#0F3D4C",
-    texte:
-      "Conduits, poêles, inserts. Certificat annuel et périodicités de l’arrêté du 20 juillet 2023. Chaque conduit garde son historique de passages et ses anomalies encore ouvertes.",
-    exemples: ["Cheminée", "Poêle à granulés", "Insert"],
-    photo: "/metiers/ramonage.svg",
-    categorie: "Entretien réglementaire",
-  },
-  {
-    slug: "chauffage",
-    nom: "Chauffage",
-    couleur: "#E2610F",
-    texte:
-      "Chaudières, pompes à chaleur, planchers chauffants. Entretien annuel et contrôle de combustion, avec les valeurs relevées consignées à chaque visite.",
-    exemples: ["Chaudière gaz", "Pompe à chaleur", "Plancher chauffant"],
-    photo: "/metiers/chauffage.svg",
-    categorie: "Entretien et dépannage",
-  },
-  {
-    slug: "climatisation",
-    nom: "Climatisation",
-    couleur: "#2F9EC2",
-    texte:
-      "Splits, gainables, VRV, centrales de traitement d’air. Contrôle d’étanchéité et traçabilité du fluide frigorigène, machine par machine.",
-    exemples: ["Split mural", "Gainable", "VRV / VRF"],
-    photo: "/metiers/climatisation.svg",
-    categorie: "Froid et traitement d’air",
-  },
-  {
-    slug: "serrurier",
-    nom: "Serrurerie",
-    couleur: "#B08D3A",
-    texte:
-      "Ouvertures, cylindres, rideaux, contrôle d’accès. L’urgence et la maintenance dans le même outil : le dépannage de nuit comme la vérification annuelle des issues.",
-    exemples: ["Porte blindée", "Rideau métallique", "Contrôle d’accès"],
-    photo: "/metiers/serrurier.svg",
-    categorie: "Urgence et sécurité",
-  },
-  {
-    slug: "piscine",
-    nom: "Piscine",
-    couleur: "#00A0A8",
-    texte:
-      "Filtration, traitement, hivernage. Analyses d’eau consignées à chaque passage — pH, désinfectant, sel — avec les produits ajoutés et les volumes.",
-    exemples: ["Filtration", "Électrolyseur", "Volet"],
-    photo: "/metiers/piscine.svg",
-    categorie: "Entretien saisonnier",
-  },
-  {
-    slug: "nuisibles",
-    nom: "Nuisibles",
-    couleur: "#6E9A2E",
-    texte:
-      "Postes d’appâtage, pièges, plans de zones. Traçabilité du produit et de son numéro d’AMM, relevé des consommations, audit sanitaire prêt à sortir.",
-    exemples: ["Poste d’appâtage", "Piège lumineux", "Zone sensible"],
-    photo: "/metiers/nuisibles.svg",
-    categorie: "Lutte intégrée",
-  },
-  {
-    slug: "traitement-eau",
-    nom: "Traitement de l’eau",
-    couleur: "#1E7FB8",
-    texte:
-      "Adoucisseurs, osmoseurs, stérilisateurs UV. Relevés de dureté à l’entrée et à la sortie, changement des consommables et désinfection du réseau.",
-    exemples: ["Adoucisseur", "Osmoseur", "Stérilisateur UV"],
-    photo: "/metiers/traitement-eau.svg",
-    categorie: "Qualité de l’eau",
-  },
-];
-
 const DUREE = 4600;
 const N = METIERS.length;
 
@@ -167,7 +101,7 @@ export function Trades() {
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
         <div className="reveal">
-          <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
+          <p className="text-amber-deep text-[11px] font-semibold tracking-[0.16em] uppercase">
             Les métiers
           </p>
           <h2 className="text-ink mt-3 text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
@@ -211,7 +145,9 @@ export function Trades() {
                       ? "border-transparent text-white"
                       : "border-line text-ink-soft hover:border-ink-soft/40 hover:text-ink bg-white")
                   }
-                  style={on ? { background: m.couleur } : undefined}
+                  // La pastille active porte du texte blanc : elle prend donc la
+                  // variante lisible, pas la couleur d’aplat.
+                  style={on ? { background: m.couleurTexte } : undefined}
                   aria-current={on ? "true" : undefined}
                 >
                   <span
@@ -228,10 +164,14 @@ export function Trades() {
 
       {/* Carrousel : le débordement latéral est voulu, il est estompé sur les
           bords pour que les cartes lointaines sortent du champ en douceur. */}
+      {/* La rotation s’arrête au survol — et au focus, sinon la carte change
+          sous les doigts de qui parcourt les flèches au clavier. */}
       <div
         className="reveal-zoom relative mt-10"
         onMouseEnter={() => setPause(true)}
         onMouseLeave={() => setPause(false)}
+        onFocusCapture={() => setPause(true)}
+        onBlurCapture={() => setPause(false)}
       >
         <button
           type="button"
@@ -254,11 +194,16 @@ export function Trades() {
           {METIERS.map((m, k) => {
             const d = distance(k, actif);
             const st = styleCarte(d);
-            const catalogue = getMetier(m.slug);
+            const courante = d === 0;
             return (
               <article
                 key={m.slug}
-                aria-hidden={d !== 0}
+                // `inert` plutôt que le seul `aria-hidden` : les cartes de
+                // côté portent désormais un lien, et un lien masqué des
+                // lecteurs d’écran mais toujours atteignable au clavier
+                // envoie le focus dans le vide. `inert` retire les deux.
+                inert={!courante}
+                aria-hidden={!courante}
                 className="border-line absolute top-2 left-1/2 flex h-[27rem] w-[19rem] flex-col rounded-3xl border bg-white p-6 shadow-[0_30px_70px_-35px_rgba(16,38,46,0.5)] transition-all duration-[650ms] ease-[cubic-bezier(0.65,0,0.35,1)] sm:h-[28rem] sm:w-[23rem] sm:p-7"
                 style={st}
               >
@@ -290,7 +235,7 @@ export function Trades() {
                 </div>
 
                 <p className="text-ink mt-6 text-[16px] leading-[1.72]">
-                  {m.texte}
+                  {m.resume}
                 </p>
 
                 <ul className="mt-5 flex flex-wrap gap-2">
@@ -300,7 +245,7 @@ export function Trades() {
                       className="rounded-full px-3 py-1.5 text-[13px] font-medium"
                       style={
                         n === 0
-                          ? { background: `${m.couleur}1f`, color: m.couleur }
+                          ? { background: `${m.couleur}1f`, color: m.couleurTexte }
                           : {
                               background: "var(--color-sand)",
                               color: "var(--color-ink-soft)",
@@ -313,18 +258,28 @@ export function Trades() {
                 </ul>
 
                 {/* Pied de carte : le volume réel du catalogue livré avec le
-                    métier. `whitespace-nowrap` — la ligne se coupait en deux
-                    sur téléphone. */}
-                <div className="border-line text-ink-soft mt-auto flex items-center gap-2 border-t pt-4 text-[12.5px] whitespace-nowrap">
-                  <span className="font-semibold" style={{ color: m.couleur }}>
-                    {catalogue?.equipements.length}
-                  </span>
-                  équipements
-                  <span className="bg-line size-1 rounded-full" />
-                  <span className="font-semibold" style={{ color: m.couleur }}>
-                    {catalogue?.interventions.length}
-                  </span>
-                  types d’intervention
+                    métier, puis l’entrée vers sa page. `whitespace-nowrap` —
+                    la ligne se coupait en deux sur téléphone. */}
+                <div className="border-line mt-auto border-t pt-4">
+                  <p className="text-ink-soft flex items-center gap-2 text-[12.5px] whitespace-nowrap">
+                    <span className="font-semibold" style={{ color: m.couleurTexte }}>
+                      {m.equipements.length}
+                    </span>
+                    équipements
+                    <span className="bg-line size-1 rounded-full" />
+                    <span className="font-semibold" style={{ color: m.couleurTexte }}>
+                      {m.interventions.length}
+                    </span>
+                    types d’intervention
+                  </p>
+                  <Link
+                    href={`/metiers/${m.slug}`}
+                    className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-semibold hover:underline"
+                    style={{ color: m.couleurTexte }}
+                  >
+                    Voir {m.nom.toLowerCase()} en détail
+                    <IconArrow className="size-3.5" />
+                  </Link>
                 </div>
               </article>
             );
@@ -352,6 +307,14 @@ export function Trades() {
             {actif + 1} / {N}
           </span>
         </div>
+
+        {/* La carte change sans que rien ne l’annonce à un lecteur d’écran.
+            Le message n’est vivant que si la rotation est arrêtée : sinon on
+            interromprait la lecture toutes les quatre secondes, ce qui est
+            pire que le silence. */}
+        <p aria-live={auto && !pause ? "off" : "polite"} className="sr-only">
+          Métier {actif + 1} sur {N} : {METIERS[actif].nom}.
+        </p>
       </div>
     </section>
   );

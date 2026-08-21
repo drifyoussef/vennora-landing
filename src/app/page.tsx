@@ -13,7 +13,7 @@ export default function Page() {
       <Nav />
       {/* `data-fond` dit à la barre de navigation ce qui passe sous elle :
           elle est transparente, son texte doit suivre le fond. */}
-      <main>
+      <main id="contenu">
         <div data-fond="sombre">
           <Hero />
         </div>

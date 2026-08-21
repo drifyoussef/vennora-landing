@@ -39,6 +39,17 @@ export const SITE = {
 
   /** Date de dernière révision des documents juridiques. */
   majJuridique: "19 août 2026",
+
+  /**
+   * Dernière révision du contenu public, au format ISO.
+   *
+   * Sert de `lastmod` au plan du site. À mettre à jour quand le contenu
+   * change réellement — pas à chaque déploiement : un site entier « modifié
+   * aujourd’hui » à chaque build est un signal que les moteurs apprennent à
+   * ignorer, et on perd alors le bénéfice du champ pour les vraies mises à
+   * jour.
+   */
+  majContenu: "2026-08-19",
 } as const;
 
 /** Vrai tant que l’identité de l’éditeur n’a pas été renseignée. */

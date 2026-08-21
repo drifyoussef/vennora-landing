@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { VennoraMark } from "@/components/mark";
 
+export const metadata: Metadata = {
+  title: "Page introuvable — Vennora",
+  // Une 404 indexée fait remonter « page introuvable » dans les résultats.
+  robots: { index: false, follow: true },
+};
+
 export default function NotFound() {
   return (
-    <main className="bg-petrol-deep grain relative isolate flex min-h-dvh flex-col items-center justify-center px-5 text-center text-white">
+    <main id="contenu" className="bg-petrol-deep grain relative isolate flex min-h-dvh flex-col items-center justify-center px-5 text-center text-white">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
@@ -13,7 +20,7 @@ export default function NotFound() {
         }}
       />
       <VennoraMark className="size-10" />
-      <p className="text-amber mt-8 text-[12px] font-semibold tracking-[0.16em] uppercase">
+      <p className="text-amber-bright mt-8 text-[12px] font-semibold tracking-[0.16em] uppercase">
         Erreur 404
       </p>
       <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">
@@ -26,7 +33,7 @@ export default function NotFound() {
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Link
           href="/"
-          className="bg-amber hover:bg-amber-bright rounded-xl px-5 py-3 text-[15px] font-semibold text-white transition-colors"
+          className="bg-amber-deep hover:bg-amber-dark rounded-xl px-5 py-3 text-[15px] font-semibold text-white transition-colors"
         >
           Retour à l’accueil
         </Link>

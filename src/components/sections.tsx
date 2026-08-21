@@ -26,7 +26,14 @@ function SectionTitle({
 }) {
   return (
     <div className="reveal max-w-2xl">
-      <p className="text-amber text-[11px] font-semibold tracking-[0.16em] uppercase">
+      <p
+        className={
+          "text-[11px] font-semibold tracking-[0.16em] uppercase " +
+          // L’ambre décoratif ne se lit ni sur le papier ni sur le pétrole :
+          // chaque fond a sa valeur. Voir la note de palette dans globals.css.
+          (inverse ? "text-amber-bright" : "text-amber-deep")
+        }
+      >
         {eyebrow}
       </p>
       <h2
@@ -218,22 +225,25 @@ export function Field() {
           <div className="rounded-[2.2rem] border border-white/15 bg-black/40 p-2.5 shadow-2xl shadow-black/50 backdrop-blur-sm">
             <div className="bg-paper overflow-hidden rounded-[1.7rem]">
               <div className="bg-petrol px-4 pt-4 pb-5 text-white">
-                <p className="text-[10px] tracking-[0.14em] text-white/50 uppercase">
+                <p className="text-[10px] tracking-[0.14em] text-white/60 uppercase">
                   Intervention en cours
                 </p>
                 <p className="mt-1.5 text-[15px] font-semibold">
                   Boulangerie Marchand
                 </p>
-                <p className="text-[11.5px] text-white/55">
+                <p className="text-[11.5px] text-white/65">
                   Poêle à granulés · Anduze
                 </p>
               </div>
 
               <div className="space-y-2.5 p-3.5">
+                {/* Teintes assombries : les versions vives de ces trois
+                    couleurs tombaient entre 3,5 et 4,4:1 sur du blanc, en
+                    11 px. Voir la note de palette dans globals.css. */}
                 {[
-                  ["Photos", "4 clichés", "#4f7b45"],
-                  ["Anomalie", "Trappe inaccessible", "#e2610f"],
-                  ["Note vocale", "1 min 12", "#1e7fb8"],
+                  ["Photos", "4 clichés", "#4f7a45"],
+                  ["Anomalie", "Trappe inaccessible", "#ba500c"],
+                  ["Note vocale", "1 min 12", "#1c76ab"],
                 ].map(([label, valeur, couleur]) => (
                   <div
                     key={label}
@@ -268,7 +278,7 @@ export function Field() {
                   </svg>
                 </div>
 
-                <div className="bg-amber rounded-xl py-2.5 text-center text-[12.5px] font-semibold text-white">
+                <div className="bg-amber-deep rounded-xl py-2.5 text-center text-[12.5px] font-semibold text-white">
                   Terminer et envoyer
                 </div>
               </div>
@@ -325,7 +335,7 @@ export function Trust() {
             {GARANTIES.map(([titre, texte], i) => (
               <div key={titre} className={`reveal reveal-${i % 2}`}>
                 <dt className="text-ink flex items-center gap-2 text-[15.5px] font-semibold">
-                  <IconCheck className="text-amber size-4" />
+                  <IconCheck className="text-amber-deep size-4" />
                   {titre}
                 </dt>
                 <dd className="text-ink-soft mt-2 text-[14px] leading-relaxed">
