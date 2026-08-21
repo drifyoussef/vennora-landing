@@ -21,20 +21,27 @@ export default function MentionsLegales() {
       >
         <h2>Éditeur du site</h2>
         <dl>
-          <dt>Raison sociale</dt>
+          <dt>Éditeur</dt>
           <dd>
-            {e.raisonSociale} — {e.formeJuridique}
+            {e.raisonSociale} — {e.formeJuridique}, exerçant sous le nom
+            commercial {e.nomCommercial}
           </dd>
-          <dt>Capital social</dt>
-          <dd>{e.capital}</dd>
-          <dt>Siège social</dt>
-          <dd>{e.adresse}</dd>
           <dt>Immatriculation</dt>
           <dd>
-            SIRET {e.siret} — RCS {e.rcs}
+            SIRET {e.siret} — {e.immatriculation}
           </dd>
-          <dt>TVA intracommunautaire</dt>
+          <dt>Activité</dt>
+          <dd>{e.ape}</dd>
+          <dt>TVA</dt>
           <dd>{e.tva}</dd>
+          {/* L'adresse n'est affichée que si elle est renseignée : une ligne
+              vide dans des mentions légales est pire que pas de ligne. */}
+          {e.adresse && (
+            <>
+              <dt>Adresse</dt>
+              <dd>{e.adresse}</dd>
+            </>
+          )}
           <dt>Directeur de la publication</dt>
           <dd>{e.directeurPublication}</dd>
           <dt>Contact</dt>

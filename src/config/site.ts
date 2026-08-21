@@ -15,14 +15,28 @@ export const SITE = {
   telephone: "", // optionnel — affiché seulement s’il est renseigné
 
   editeur: {
-    raisonSociale: "À COMPLÉTER — raison sociale",
-    formeJuridique: "À COMPLÉTER — SAS, SASU, EI…",
-    capital: "À COMPLÉTER — capital social",
-    siret: "À COMPLÉTER — numéro SIRET",
-    rcs: "À COMPLÉTER — ville et numéro RCS",
-    tva: "À COMPLÉTER — numéro de TVA intracommunautaire",
-    adresse: "À COMPLÉTER — adresse du siège",
-    directeurPublication: "À COMPLÉTER — nom du directeur de la publication",
+    raisonSociale: "Youssef DRIF",
+    nomCommercial: "YD Development",
+    formeJuridique: "Entrepreneur individuel",
+    siret: "994 002 863 00011",
+    siren: "994 002 863",
+    ape: "6201Z — Programmation informatique",
+    /**
+     * Registre national des entreprises. Un entrepreneur individuel n'a ni
+     * capital social ni numéro RCS distinct : ces mentions n'ont pas d'objet.
+     */
+    immatriculation: "Registre national des entreprises, le 19 novembre 2025",
+    /**
+     * À COMPLÉTER — numéro de TVA intracommunautaire, ou, en franchise en
+     * base, la mention « TVA non applicable, article 293 B du CGI ».
+     */
+    tva: "À COMPLÉTER — régime de TVA",
+    /**
+     * Volontairement absente : voir la note dans les mentions légales. La
+     * renseigner ici la fait réapparaître partout, sans autre changement.
+     */
+    adresse: "",
+    directeurPublication: "Youssef DRIF",
   },
 
   hebergeur: {
@@ -53,4 +67,12 @@ export const SITE = {
 } as const;
 
 /** Vrai tant que l’identité de l’éditeur n’a pas été renseignée. */
-export const IDENTITE_INCOMPLETE = SITE.editeur.siret.startsWith("À COMPLÉTER");
+/**
+ * Vrai tant qu'une information légalement exigée manque. L'hébergeur en fait
+ * partie au même titre que l'éditeur : une mention légale amputée de l'un ou
+ * de l'autre ne vaut pas mieux qu'une page absente.
+ */
+export const IDENTITE_INCOMPLETE =
+  SITE.editeur.siret.startsWith("À COMPLÉTER") ||
+  SITE.editeur.tva.startsWith("À COMPLÉTER") ||
+  SITE.hebergeur.nom.startsWith("À COMPLÉTER");
