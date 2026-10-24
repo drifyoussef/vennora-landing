@@ -1,76 +1,14 @@
 import Link from "next/link";
-import { IconArrow, IconCheck } from "./icons";
+import { IconCheck } from "./icons";
+import { GrilleTarifs } from "./tarifs";
 import { Wordmark } from "./mark";
 import { EssaiForm } from "./essai-form";
 import { SITE } from "@/config/site";
 import { METIERS } from "@/data/metiers";
 
 /* -------------------------------------------------------------------------
-   Tarifs
-
-   Le prix est par entreprise, pas par tête : un patron de quinze techniciens
-   ne doit pas pouvoir calculer sa facture de tête et se braquer avant d’avoir
-   vu le produit. La facturation à l’utilisateur ne commence qu’au-delà du
-   forfait inclus.
-
-   ⚠️ Montants à revoir avant mise en ligne si la grille bouge : ils sont tous
-   dans ce tableau et dans les deux bandeaux qui suivent.
+   Tarifs — la grille et ses montants vivent dans `tarifs.tsx`.
 ------------------------------------------------------------------------- */
-const OFFRES = [
-  {
-    nom: "Essentiel",
-    prix: "39 €",
-    unite: "par mois",
-    sieges: "1 utilisateur",
-    pitch: "Pour gérer ses interventions sans papier.",
-    inclus: [
-      "Clients, sites, équipements",
-      "Planning et interventions",
-      "Photos et anomalies",
-      "Étiquettes QR illimitées",
-      "Rapport d’intervention PDF signé",
-    ],
-    cta: "Essayer gratuitement",
-    accent: false,
-  },
-  {
-    nom: "Pro",
-    prix: "99 €",
-    unite: "par mois",
-    sieges: "Jusqu’à 3 utilisateurs",
-    extra: "puis 20 € par utilisateur supplémentaire",
-    pitch: "Pour automatiser ses comptes-rendus et travailler en équipe.",
-    inclus: [
-      "Toute l’offre Essentiel",
-      "Dictée et compte-rendu assisté",
-      "Rappels d’échéance automatiques",
-      "Envoi des rapports par e-mail",
-      "Rôles et permissions",
-      "Support sous 24 h ouvrées",
-    ],
-    cta: "Essayer gratuitement",
-    accent: true,
-  },
-  {
-    nom: "Business",
-    prix: "249 €",
-    unite: "par mois",
-    sieges: "Jusqu’à 10 utilisateurs",
-    extra: "puis 20 € par utilisateur supplémentaire",
-    pitch: "Pour structurer plusieurs équipes et plusieurs sites.",
-    inclus: [
-      "Toute l’offre Pro",
-      "Permissions avancées",
-      "Plusieurs sites et plusieurs équipes",
-      "Exports et API",
-      "Intégrations comptables",
-      "Support prioritaire",
-    ],
-    cta: "Demander une démo",
-    accent: false,
-  },
-];
-
 export function Pricing() {
   return (
     <section id="tarifs" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">
@@ -79,122 +17,17 @@ export function Pricing() {
           Tarifs
         </p>
         <h2 className="text-ink mt-3 text-3xl font-semibold sm:text-[2.5rem] sm:leading-[1.12]">
-          Un abonnement par entreprise, pas par tête
+          Un forfait par entreprise, des utilisateurs inclus
         </h2>
         <p className="text-ink-soft mt-5 text-lg">
-          Embaucher un technicien ne doit pas coûter une licence de plus dès le
-          premier jour. Pas de frais de mise en service, pas de palier sur le
-          nombre de clients ou d’équipements. Essai gratuit, sans engagement.
+          Pro inclut trois utilisateurs, Business dix : embaucher un technicien
+          ne coûte pas une licence de plus dès le premier jour. Pas de frais de
+          mise en service, pas de palier sur le nombre de clients ou
+          d’équipements. Essai gratuit, sans engagement.
         </p>
       </div>
 
-      <div className="mt-14 grid items-start gap-6 lg:grid-cols-3">
-        {OFFRES.map((o, i) => (
-          <div
-            key={o.nom}
-            className={
-              `reveal reveal-${i} relative flex flex-col rounded-2xl border p-7 ` +
-              (o.accent
-                ? "border-petrol bg-petrol text-white shadow-2xl shadow-black/15 lg:-mt-4 lg:pb-9"
-                : "border-line bg-white")
-            }
-          >
-            {o.accent && (
-              <span className="bg-amber-deep absolute -top-3 left-7 rounded-full px-3 py-1 text-[11px] font-semibold text-white">
-                Le plus choisi
-              </span>
-            )}
-
-            <h3
-              className={
-                "text-[17px] font-semibold " + (o.accent ? "text-white" : "text-ink")
-              }
-            >
-              {o.nom}
-            </h3>
-            <p
-              className={
-                "mt-1.5 text-[13.5px] " +
-                (o.accent ? "text-white/60" : "text-ink-soft")
-              }
-            >
-              {o.pitch}
-            </p>
-
-            <div className="mt-6 min-h-[6.5rem]">
-              <div className="flex items-baseline gap-2">
-                <span
-                  className={
-                    "text-4xl font-semibold tracking-tight " +
-                    (o.accent ? "text-white" : "text-ink")
-                  }
-                >
-                  {o.prix}
-                </span>
-                <span
-                  className={
-                    "text-[13.5px] " + (o.accent ? "text-white/65" : "text-ink-soft")
-                  }
-                >
-                  {o.unite}
-                </span>
-              </div>
-
-              <p
-                className={
-                  "mt-2 text-[13.5px] font-medium " +
-                  (o.accent ? "text-amber-bright" : "text-petrol")
-                }
-              >
-                {o.sieges}
-              </p>
-              {o.extra && (
-                <p
-                  className={
-                    "mt-0.5 text-[12.5px] " +
-                    (o.accent ? "text-white/60" : "text-ink-soft")
-                  }
-                >
-                  {o.extra}
-                </p>
-              )}
-            </div>
-
-            <a
-              href="#demo"
-              className={
-                "mt-1 flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14.5px] font-semibold transition-colors " +
-                (o.accent
-                  ? "bg-amber-deep hover:bg-amber-dark text-white"
-                  : "bg-petrol hover:bg-petrol-deep text-white")
-              }
-            >
-              {o.cta} <IconArrow className="size-4" />
-            </a>
-
-            <ul className="mt-7 space-y-3">
-              {o.inclus.map((f) => (
-                <li key={f} className="flex items-start gap-2.5">
-                  <IconCheck
-                    className={
-                      "mt-0.5 size-4 shrink-0 " +
-                      (o.accent ? "text-amber-bright" : "text-petrol")
-                    }
-                  />
-                  <span
-                    className={
-                      "text-[14px] " +
-                      (o.accent ? "text-white/80" : "text-ink-soft")
-                    }
-                  >
-                    {f}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <GrilleTarifs />
 
       <p className="reveal text-ink-soft mt-8 text-center text-[13.5px]">
         Aucune carte bancaire requise · Annulation à tout moment
@@ -226,12 +59,8 @@ export function Pricing() {
       <div className="reveal bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink text-[14.5px]">
           <span className="text-amber-deep font-semibold">Offre fondateur : </span>
-          {/* L’ancien prix est barré : il se met en retrait, il ne rivalise
-              pas avec l’accent. `amber-bright` est réservé au texte sur fond
-              sombre — ici, sur le bandeau clair, il tombe à 2,2:1. */}
-          <span className="text-ink-soft line-through">99&nbsp;€</span> 79 € par
-          mois jusqu’à trois utilisateurs, pour les premières entreprises qui
-          nous rejoignent.{" "}
+          <span className="font-semibold">−20&nbsp;%</span> sur le forfait de
+          votre choix, pour les premières entreprises qui nous rejoignent.{" "}
           <span className="text-ink-soft">Prix garanti deux ans.</span>
         </p>
         <a
@@ -320,7 +149,7 @@ export function Demo() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(40rem 24rem at 20% 0%, rgba(217,122,40,0.28), transparent 62%), radial-gradient(36rem 22rem at 90% 100%, rgba(79,168,199,0.18), transparent 60%)",
+              "radial-gradient(40rem 24rem at 20% 0%, rgba(217,122,40,0.28), transparent 62%), radial-gradient(36rem 22rem at 90% 100%,  rgba(217, 122, 40, 0.22), transparent 60%)",
           }}
         />
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
@@ -364,20 +193,20 @@ export function Demo() {
 /* ------------------------------------------------------------------------- */
 export function Footer() {
   return (
-    <footer className="border-line border-t">
+    <footer data-fond="sombre" className="bg-petrol text-white">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-6 md:grid-cols-[1fr_1.6fr]">
         <div>
-          <span className="text-petrol">
+          <span className="text-white">
             <Wordmark />
           </span>
-          <p className="text-ink-soft mt-3 max-w-xs text-[13.5px]">
+          <p className="mt-3 max-w-xs text-white/65 text-[13.5px]">
             Gérez vos interventions. Maîtrisez vos équipements.
           </p>
         </div>
 
         <div className="grid gap-8 text-[14px] sm:grid-cols-3">
           <nav className="flex flex-col gap-2.5">
-            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+            <p className="text-[12px] font-semibold text-white tracking-[0.12em] uppercase">
               Produit
             </p>
             {[
@@ -389,7 +218,7 @@ export function Footer() {
               <Link
                 key={label}
                 href={href}
-                className="text-ink-soft hover:text-petrol transition-colors"
+                className="text-white/65 transition-colors hover:text-white"
               >
                 {label}
               </Link>
@@ -397,7 +226,7 @@ export function Footer() {
           </nav>
 
           <nav className="flex flex-col gap-2.5">
-            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+            <p className="text-[12px] font-semibold text-white tracking-[0.12em] uppercase">
               Métiers
             </p>
             {/* Les sept, pas quatre : le pied de page est le seul endroit du
@@ -407,7 +236,7 @@ export function Footer() {
               <Link
                 key={m.slug}
                 href={`/metiers/${m.slug}`}
-                className="text-ink-soft hover:text-petrol transition-colors"
+                className="text-white/65 transition-colors hover:text-white"
               >
                 {m.nom}
               </Link>
@@ -415,7 +244,7 @@ export function Footer() {
           </nav>
 
           <nav className="flex flex-col gap-2.5">
-            <p className="text-ink text-[12px] font-semibold tracking-[0.12em] uppercase">
+            <p className="text-[12px] font-semibold text-white tracking-[0.12em] uppercase">
               Vennora
             </p>
             {/* `Contact` est un `mailto:` : une ancre nue, pas un `Link`. Le
@@ -423,7 +252,7 @@ export function Footer() {
                 à un composant de navigation interne n’a pas de sens. */}
             <a
               href={`mailto:${SITE.email}`}
-              className="text-ink-soft hover:text-petrol transition-colors"
+              className="text-white/65 transition-colors hover:text-white"
             >
               Contact
             </a>
@@ -435,7 +264,7 @@ export function Footer() {
               <Link
                 key={label}
                 href={href}
-                className="text-ink-soft hover:text-petrol transition-colors"
+                className="text-white/65 transition-colors hover:text-white"
               >
                 {label}
               </Link>
@@ -444,8 +273,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-line border-t">
-        <div className="text-ink-soft mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-[12.5px] sm:flex-row sm:justify-between sm:px-6">
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-[12.5px] text-white/60 sm:flex-row sm:justify-between sm:px-6">
           <p>
             © {new Date().getFullYear()} {SITE.nom}. Tous droits réservés.
           </p>

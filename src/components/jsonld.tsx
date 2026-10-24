@@ -18,7 +18,9 @@ export function JsonLd({ faq }: { faq: [string, string][] }) {
         "@id": `${SITE.domaine}/#organisation`,
         name: SITE.nom,
         url: SITE.domaine,
-        logo: `${SITE.domaine}/icon.png`,
+        // Un PNG plutôt que le favicon SVG : Google veut une image
+        // matricielle d’au moins 112 px pour le logo d’une organisation.
+        logo: `${SITE.domaine}/logo.png`,
         email: SITE.email,
         slogan: SITE.baseline,
         areaServed: "FR",

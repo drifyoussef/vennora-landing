@@ -122,7 +122,7 @@ const VERS_LA_GAUCHE =
 
 /** À trois colonnes et au-delà, tous les traits repartent vers la droite. */
 const RETOUR_EN_LIGNE =
-  "lg:top-3 lg:bottom-auto lg:left-6 lg:-right-6 lg:h-0 lg:w-auto lg:border-t lg:border-l-0";
+  "lg:top-4 lg:bottom-auto lg:left-8 lg:-right-10 lg:h-0 lg:w-auto lg:border-t lg:border-l-0";
 
 /**
  * Sens du trait à deux colonnes : droite, bas, gauche, bas, droite.
@@ -157,8 +157,8 @@ function liaison(i: number, total: number): string {
 export function Chain() {
   return (
     <section className="border-line bg-sand/60 border-y">
-      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:py-20">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-12 xl:grid-cols-6">
           {CHAINE.map(([titre, texte], i) => (
             <div
               key={titre}
@@ -173,13 +173,13 @@ export function Chain() {
                   `${sens(i)} ${RETOUR_EN_LIGNE} ${liaison(i, CHAINE.length)}`
                 }
               />
-              <span className="bg-petrol absolute top-0 left-0 grid size-6 place-items-center rounded-full text-[11px] font-semibold text-white lg:static">
+              <span className="bg-petrol absolute top-0 left-0 grid size-6 place-items-center rounded-full text-[11px] font-semibold text-white lg:static lg:size-8 lg:text-[13px]">
                 {i + 1}
               </span>
-              <p className="text-ink text-[15px] font-semibold sm:mt-8 lg:mt-3.5">
+              <p className="text-ink text-[15px] font-semibold sm:mt-8 lg:mt-5 lg:text-lg">
                 {titre}
               </p>
-              <p className="text-ink-soft mt-2 text-[13.5px] leading-relaxed">
+              <p className="text-ink-soft mt-2 text-[13.5px] leading-relaxed lg:text-[15px]">
                 {texte}
               </p>
             </div>

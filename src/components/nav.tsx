@@ -45,8 +45,8 @@ function useFondSousBarre(): "clair" | "sombre" {
           (dernier?.getAttribute("data-fond") as "clair" | "sombre") ?? "clair",
         );
       },
-      // Une ligne d’observation à 40 px du haut, soit le milieu de la barre.
-      { rootMargin: "-40px 0px -100% 0px", threshold: 0 },
+      // Une ligne d’observation à 48 px du haut, soit le milieu de la pilule.
+      { rootMargin: "-48px 0px -100% 0px", threshold: 0 },
     );
 
     cibles.forEach((c) => observateur.observe(c));
@@ -82,16 +82,36 @@ export function Nav() {
   const clair = sombre && !ouvert;
 
   return (
-    // La barre entre avec le reste, juste avant le titre. Menu déplié, elle
-    // prend le fond du panneau : sans cela le logotype reste en pétrole sur
-    // le héros sombre, c’est-à-dire invisible.
-    <header
-      className={
-        "rise fixed inset-x-0 top-0 z-50 transition-colors duration-200 " +
-        (ouvert ? "bg-paper" : "")
-      }
-    >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:h-18 sm:px-6">
+    // La barre entre avec le reste, juste avant le titre.
+    //
+    // Une seule pilule flottante, décollée du haut et des bords : logotype,
+    // liens et bouton dans le même contour, sous le même flou. L’en-tête
+    // lui-même est transparent et laisse passer les clics — sans
+    // `pointer-events-none`, la marge autour de la pilule masquerait le haut
+    // de la page.
+    <header className="rise pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+      {/* Le panneau ne couvre plus l’écran : un voile derrière lui le
+          referme au toucher, comme on s’y attend sur téléphone. */}
+      {ouvert && (
+        <div
+          aria-hidden="true"
+          onClick={() => setOuvert(false)}
+          className="bg-ink/25 pointer-events-auto fixed inset-0 -z-10 md:hidden"
+        />
+      )}
+      {/* Menu déplié, la pilule prend le fond du panneau : sans cela le
+          logotype reste en pétrole sur le héros sombre, c’est-à-dire
+          invisible. Sinon, sa teinte suit le fond qui passe dessous. */}
+      <div
+        className={
+          "pointer-events-auto mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between gap-3 rounded-full border pr-4 pl-6 lg:gap-6 shadow-lg backdrop-blur-md transition-colors duration-300 sm:pr-5 sm:pl-7 " +
+          (ouvert
+            ? "bg-paper border-line shadow-black/5"
+            : sombre
+              ? "bg-petrol-deep/60 border-white/10 shadow-black/20"
+              : "border-line bg-white/75 shadow-black/5")
+        }
+      >
         <a
           href="#haut"
           onClick={() => setOuvert(false)}
@@ -106,17 +126,14 @@ export function Nav() {
 
         <nav
           aria-label="Navigation principale"
-          className={
-            "hidden items-center gap-1 rounded-full border px-2 py-1.5 backdrop-blur-md transition-colors duration-300 md:flex " +
-            (clair ? "border-white/10 bg-white/5" : "border-line bg-white/70")
-          }
+          className="hidden items-center gap-1 md:flex"
         >
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
               className={
-                "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors " +
+                "rounded-full px-2.5 py-1.5 text-sm font-medium lg:px-4 lg:py-2 lg:text-[16px] transition-colors " +
                 (clair
                   ? "text-white/70 hover:bg-white/10 hover:text-white"
                   : "text-ink-soft hover:bg-sand hover:text-ink")
@@ -134,7 +151,7 @@ export function Nav() {
             // `whitespace-nowrap` : sur 390 px, l’intitulé passait à la
             // ligne, la barre doublait de hauteur et le bouton recouvrait le
             // logotype. Le libellé raccourcit avant de se casser en deux.
-            className="bg-amber-deep hover:bg-amber-dark rounded-full px-3.5 py-2 text-[13px] font-semibold whitespace-nowrap text-white transition-colors sm:px-5 sm:py-2.5 sm:text-sm"
+            className="bg-amber-deep hover:bg-amber-dark rounded-full px-3.5 py-2.5 text-[13px] font-semibold whitespace-nowrap text-white transition-colors sm:px-5 sm:text-sm"
           >
             <span className="sm:hidden">Essai gratuit</span>
             <span className="hidden sm:inline">Demander une démo</span>
@@ -150,10 +167,8 @@ export function Nav() {
             aria-controls="menu-mobile"
             aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
             className={
-              "grid size-10 shrink-0 place-items-center rounded-full border transition-colors md:hidden " +
-              (clair
-                ? "border-white/15 bg-white/5 text-white"
-                : "border-line bg-white/70 text-ink")
+              "grid size-10 shrink-0 place-items-center rounded-full transition-colors md:hidden " +
+              (clair ? "text-white hover:bg-white/10" : "text-ink hover:bg-sand")
             }
           >
             <IconMenu ouvert={ouvert} />
@@ -161,12 +176,14 @@ export function Nav() {
         </div>
       </div>
 
+      {/* Le panneau reprend la forme décrochée : une carte sous la pilule,
+          pas un rideau collé aux bords. */}
       <div
         id="menu-mobile"
         hidden={!ouvert}
-        className="border-line bg-paper border-b shadow-lg shadow-black/5 md:hidden"
+        className="border-line bg-paper pointer-events-auto mx-auto mt-2 max-w-6xl rounded-3xl border shadow-lg shadow-black/10 md:hidden"
       >
-        <nav aria-label="Navigation" className="mx-auto max-w-6xl px-5 pt-2 pb-5">
+        <nav aria-label="Navigation" className="px-5 py-2">
           {LINKS.map((l) => (
             <a
               key={l.href}

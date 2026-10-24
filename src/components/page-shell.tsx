@@ -28,7 +28,7 @@ export function PageShell({
             href="/#haut"
             className="text-petrol flex items-center gap-2.5 transition-opacity hover:opacity-70"
           >
-            <VennoraMark className="size-6" />
+            <VennoraMark className="size-7" />
             <span className="text-[17px] font-semibold tracking-tight">
               {SITE.nom}
             </span>

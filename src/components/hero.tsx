@@ -32,11 +32,11 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(70rem 40rem at 12% -10%, rgba(217,122,40,0.22), transparent 60%), radial-gradient(60rem 40rem at 95% 8%, rgba(79,168,199,0.18), transparent 62%), linear-gradient(180deg, #08222b 0%, #0b2c37 55%, #08222b 100%)",
+            "radial-gradient(70rem 40rem at 12% -10%, rgba(217,122,40,0.22), transparent 60%), radial-gradient(60rem 40rem at 95% 8%, rgba(217, 122, 40, 0.22), transparent 62%), linear-gradient(180deg, #08222b 0%, #0b2c37 55%, #08222b 100%)",
         }}
       />
 
-      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-24 pb-10 sm:px-6 sm:pt-28 lg:pt-32 lg:pb-12 [@media(max-height:850px)]:pt-20 [@media(max-height:850px)]:pb-6 [@media(max-height:850px)]:lg:pt-24">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-24 pb-10 sm:px-6 sm:pt-28 lg:pt-32 lg:pb-12 [@media(max-height:850px)]:pt-24 [@media(max-height:850px)]:pb-6 [@media(max-height:850px)]:lg:pt-28">
         {/* `flex-1` : le bloc principal occupe la hauteur restante et s’y centre,
             le bandeau des métiers reste posé en bas de l’écran. */}
         <div className="grid flex-1 items-center gap-12 py-8 lg:grid-cols-[1.05fr_minmax(0,1fr)] lg:gap-16 [@media(max-height:850px)]:py-2">

@@ -82,6 +82,111 @@ function Journee() {
   );
 }
 
+/**
+ * Les quatre photos du chantier, dessinées.
+ *
+ * Des aplats unis faisaient des carrés vides. Pas de vraies photos pour
+ * autant : ici on montre ce qu’un ramoneur photographie réellement devant ce
+ * poêle — l’appareil, sa plaque signalétique, la trappe qu’il n’a pas pu
+ * atteindre (l’anomalie qui suit), l’étiquette posée. À 70 px de côté, un
+ * dessin se lit mieux qu’une photo, et il ne pèse rien.
+ */
+const PHOTOS: { fond: string; dessin: React.ReactNode }[] = [
+  {
+    // Le poêle, flamme allumée.
+    fond: "linear-gradient(160deg, #4a3f38, #1f1a17)",
+    dessin: (
+      <>
+        <rect x="18.5" y="0" width="3" height="8" fill="#6b7680" />
+        <rect x="11" y="8" width="18" height="25" rx="2.5" fill="#55606a" />
+        <rect x="14" y="11.5" width="12" height="11.5" rx="1.5" fill="#1a1412" />
+        <path
+          d="M20 22c-2.4 0-3.4-1.7-2.7-3.5.5.9 1.2 1.2 1.5.9-.4-1.9.6-3.4 1.9-4.4 0 1.7 1 2.4 1.7 3.4.9 1.4.4 3.6-2.4 3.6z"
+          fill="#ef8f3c"
+        />
+        <rect x="14" y="26" width="12" height="1.6" rx=".8" fill="#3c454d" />
+        <rect x="13" y="33" width="2.5" height="3" fill="#3c454d" />
+        <rect x="24.5" y="33" width="2.5" height="3" fill="#3c454d" />
+      </>
+    ),
+  },
+  {
+    // La plaque signalétique, vissée sur le flanc.
+    fond: "linear-gradient(160deg, #46555c, #1f2a30)",
+    dessin: (
+      <>
+        <rect x="7" y="11" width="26" height="18" rx="1.5" fill="#d9dde0" />
+        {[
+          [9.5, 13.5],
+          [30.5, 13.5],
+          [9.5, 26.5],
+          [30.5, 26.5],
+        ].map(([cx, cy]) => (
+          <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r=".9" fill="#9aa3a9" />
+        ))}
+        <rect x="12" y="14" width="11" height="2" rx=".5" fill="#0f3d4c" />
+        <rect x="12" y="18.5" width="16" height="1" rx=".5" fill="#8a949a" />
+        <rect x="12" y="21" width="12" height="1" rx=".5" fill="#8a949a" />
+        <rect x="12" y="23.5" width="14" height="1" rx=".5" fill="#8a949a" />
+      </>
+    ),
+  },
+  {
+    // Le conduit et sa trappe de ramonage, inaccessible.
+    fond: "linear-gradient(160deg, #5a4438, #2a1f1a)",
+    dessin: (
+      <>
+        <path
+          d="M0 10h40M0 20h40M0 30h40M8 0v10M28 0v10M16 10v10M36 10v10M8 20v10M28 20v10M16 30v10M36 30v10"
+          stroke="#ffffff"
+          strokeOpacity=".08"
+          strokeWidth=".8"
+        />
+        <rect x="9" y="0" width="8" height="40" fill="#6b7680" />
+        <rect x="9" y="0" width="2" height="40" fill="#8c979f" />
+        <rect x="21" y="15" width="11" height="10" rx="1" fill="#2a2522" stroke="#ef8f3c" strokeWidth="1.2" />
+        <path d="M24 17.5l5 5M29 17.5l-5 5" stroke="#ef8f3c" strokeWidth="1.3" strokeLinecap="round" />
+      </>
+    ),
+  },
+  {
+    // L’étiquette QR, collée sur l’appareil.
+    fond: "linear-gradient(160deg, #2f4750, #16292f)",
+    dessin: (
+      <>
+        <rect x="10" y="8.5" width="20" height="23.5" rx="2" fill="#ffffff" />
+        {[
+          [13, 11.5],
+          [22, 11.5],
+          [13, 20.5],
+        ].map(([x, y]) => (
+          <g key={`${x}-${y}`}>
+            <rect x={x} y={y} width="5" height="5" fill="#0f3d4c" />
+            <rect x={x + 1} y={y + 1} width="3" height="3" fill="#ffffff" />
+            <rect x={x + 1.75} y={y + 1.75} width="1.5" height="1.5" fill="#0f3d4c" />
+          </g>
+        ))}
+        {[
+          [19, 11.5],
+          [19.5, 14.5],
+          [19, 17.5],
+          [22, 18.5],
+          [24.5, 19.5],
+          [20, 20.5],
+          [22.5, 22],
+          [25, 23],
+          [19.5, 24],
+          [22, 24.5],
+        ].map(([x, y]) => (
+          <rect key={`${x}-${y}`} x={x} y={y} width="1.6" height="1.6" fill="#0f3d4c" />
+        ))}
+        <rect x="13" y="28" width="9" height="1.4" rx=".7" fill="#0f3d4c" />
+        <rect x="23.5" y="28" width="3.5" height="1.4" rx=".7" fill="#d97a28" />
+      </>
+    ),
+  },
+];
+
 function Chantier() {
   const photos = useTick(4, 620);
   return (
@@ -109,17 +214,27 @@ function Chantier() {
       </div>
 
       <div className="mt-3 grid grid-cols-4 gap-2">
-        {[0, 1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className={
-              "aspect-square rounded-lg transition-all duration-500 " +
-              (i < photos
-                ? "pop bg-gradient-to-br from-[#2f4750] to-[#16292f]"
-                : "border-line border border-dashed bg-white/50")
-            }
-          />
-        ))}
+        {PHOTOS.map((p, i) =>
+          i < photos ? (
+            <div
+              key={i}
+              className="pop relative aspect-square overflow-hidden rounded-lg"
+              style={{ background: p.fond }}
+            >
+              <svg viewBox="0 0 40 40" className="size-full" aria-hidden="true">
+                {p.dessin}
+              </svg>
+              {/* Un reflet en haut à gauche : ce qui fait passer un dessin
+                  plat pour une photo prise au téléphone. */}
+              <span className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.14),transparent_60%)]" />
+            </div>
+          ) : (
+            <div
+              key={i}
+              className="border-line aspect-square rounded-lg border border-dashed bg-white/50"
+            />
+          ),
+        )}
       </div>
 
       <div className="mt-3 flex items-center justify-between">

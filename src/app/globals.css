@@ -136,7 +136,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6.5rem;
     -webkit-tap-highlight-color: transparent;
   }
   body {
@@ -158,6 +158,13 @@
   ::selection {
     background: var(--color-amber);
     color: #fff;
+  }
+  /* Tailwind 4 rend aux boutons le curseur par défaut du navigateur, la
+     flèche. On remet la main partout plutôt que de semer `cursor-pointer`
+     bouton par bouton — et d’en oublier un. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
 }
 
