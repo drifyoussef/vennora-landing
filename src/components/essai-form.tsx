@@ -124,6 +124,19 @@ export function EssaiForm() {
           Nous revenons vers vous sous 24 heures ouvrées, avec un accès et une
           proposition de créneau.
         </p>
+        {/* Le prospect vient de se décider : c’est le moment où il prend un
+            rendez-vous lui-même, plutôt que d’attendre notre relance. */}
+        {SITE.calendrier && (
+          <a
+            href={SITE.calendrier}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-[14.5px] font-semibold text-petrol transition-colors hover:bg-white/90"
+          >
+            Choisir mon créneau maintenant
+            <span className="sr-only"> (s’ouvre dans un nouvel onglet)</span>
+          </a>
+        )}
       </div>
     );
   }
@@ -133,7 +146,10 @@ export function EssaiForm() {
   const label = "text-[13px] font-medium text-white/70";
 
   return (
-    <form onSubmit={envoyer} className="grid gap-4 sm:grid-cols-2">
+    // `content-start` : quand la colonne voisine est plus haute (encart de
+    // réservation), le formulaire s’étire à sa hauteur et, sans cela, ses
+    // rangées aussi — chaque label se décollait de son champ.
+    <form onSubmit={envoyer} className="grid content-start gap-4 sm:grid-cols-2">
       {/* Le leurre. Il porte un nom que les robots aiment remplir, et rien
           d’autre sur la page ne s’appelle « site ». */}
       <div className="leurre" aria-hidden="true">

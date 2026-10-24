@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IconCheck } from "./icons";
+import { IconCalendar, IconCheck } from "./icons";
 import { GrilleTarifs } from "./tarifs";
 import { Wordmark } from "./mark";
 import { EssaiForm } from "./essai-form";
@@ -176,7 +176,7 @@ export function Demo() {
               ))}
             </ul>
             <p className="mt-8 text-[14px] text-white/60">
-              Vous préférez en parler ?{" "}
+              {SITE.calendrier ? "Contact email : " : "Vous préférez en parler ? "}
               <a href={`mailto:${SITE.email}`} className="text-white/75 underline">
                 {SITE.email}
               </a>
@@ -185,6 +185,31 @@ export function Demo() {
 
           <EssaiForm />
         </div>
+
+        {/* Deux portes d’entrée : le formulaire pour qui veut un essai, le
+            calendrier pour qui veut d’abord parler à quelqu’un. Pleine
+            largeur, sous les deux colonnes. */}
+        {SITE.calendrier && (
+          <div className="mt-12 rounded-2xl border border-white/12 bg-white/5 p-7 sm:p-9">
+            <p className="text-xl font-semibold text-white sm:text-2xl">
+              Vous préférez en parler de vive voix ?
+            </p>
+            <p className="mt-2 text-[16px] text-white/65 sm:text-[17px]">
+              Choisissez un créneau de 30 minutes, on regarde ensemble votre
+              façon de travailler.
+            </p>
+            <a
+              href={SITE.calendrier}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-petrol mt-6 inline-flex items-center gap-2.5 rounded-xl bg-white px-6 py-3.5 text-[16px] font-semibold transition-colors hover:bg-white/90"
+            >
+              <IconCalendar className="size-5" />
+              Réserver un appel
+              <span className="sr-only"> (s’ouvre dans un nouvel onglet)</span>
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -278,7 +303,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE.nom}. Tous droits réservés.
           </p>
-          <p>Fait en France, pour des métiers qui travaillent dehors.</p>
+          <p>Fait en France, pour des métiers d&apos;intervention sur site.</p>
         </div>
       </div>
     </footer>

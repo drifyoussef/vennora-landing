@@ -145,7 +145,7 @@ export function GrilleTarifs() {
           >
             {o.accent && (
               <span className="bg-amber-deep absolute -top-3 left-7 rounded-full px-3 py-1 text-[11px] font-semibold text-white">
-                Le plus choisi
+                Recommandé
               </span>
             )}
 

@@ -13,6 +13,13 @@ export const SITE = {
     "Clients, équipements, planning, comptes-rendus signés : Vennora suit l’intervention du parc client au rapport envoyé.",
   email: "contact@vennora.app",
   telephone: "", // optionnel — affiché seulement s’il est renseigné
+  /**
+   * Page de réservation Cal.com, du type « https://cal.com/vennora/demo ».
+   * Vide : aucun bouton de réservation n’est affiché. Un lien plutôt que le
+   * calendrier intégré : l’intégration charge le script de Cal.com sur le
+   * site, ce qui contredirait la politique de confidentialité (aucun tiers).
+   */
+  calendrier: "https://cal.com/youssef-drif-fty6jo/30min",
 
   editeur: {
     raisonSociale: "Youssef DRIF",
