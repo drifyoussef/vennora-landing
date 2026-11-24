@@ -15,6 +15,7 @@ const METIERS = [
   "Piscine",
   "Nuisibles",
   "Traitement de l’eau",
+  "Sécurité incendie",
 ];
 
 export function Hero() {

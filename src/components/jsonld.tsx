@@ -35,11 +35,26 @@ export function JsonLd({ faq }: { faq: [string, string][] }) {
         url: SITE.domaine,
         publisher: { "@id": `${SITE.domaine}/#organisation` },
         featureList: METIERS.map((m) => m.nom),
-        offers: [
-          { "@type": "Offer", name: "Essentiel", price: "39", priceCurrency: "EUR" },
-          { "@type": "Offer", name: "Pro", price: "99", priceCurrency: "EUR" },
-          { "@type": "Offer", name: "Business", price: "249", priceCurrency: "EUR" },
-        ],
+        // Tarif public, hors taxes, au mois — comme la grille l’affiche.
+        offers: (
+          [
+            ["Essentiel", "39"],
+            ["Pro", "99"],
+            ["Business", "249"],
+          ] as const
+        ).map(([name, price]) => ({
+          "@type": "Offer",
+          name,
+          price,
+          priceCurrency: "EUR",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price,
+            priceCurrency: "EUR",
+            unitText: "MONTH",
+            valueAddedTaxIncluded: false,
+          },
+        })),
       },
       {
         "@type": "FAQPage",

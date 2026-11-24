@@ -5,16 +5,24 @@
  * fichiers `src/verticals/<metier>/index.ts` des applications Vennora : ce
  * sont exactement les catalogues livrés, pas une liste d’argumentaire. Si le
  * produit gagne un type d’équipement, cette page doit le gagner aussi.
+ *
+ * Exception : la sécurité incendie, rédigée avant son vertical (voir sa
+ * fiche).
  */
 export type Metier = {
   slug: string;
   nom: string;
+  /**
+   * Le métier précédé de son article partitif : « du ramonage », « de la
+   * serrurerie ». `du ${nom}` donnait « du serrurerie », « du piscine ».
+   */
+  partitif: string;
   /** Requête visée par la page dédiée. */
   requete: string;
   categorie: string;
   /**
    * Couleur d’identité du métier, reprise de l’application. Elle sert aux
-   * aplats et aux vignettes — jamais à du texte : six des sept ne dépassent
+   * aplats et aux vignettes — jamais à du texte : six des huit ne dépassent
    * pas 3,5:1 sur du blanc, là où AA en demande 4,5.
    */
   couleur: string;
@@ -31,6 +39,11 @@ export type Metier = {
   reglementation: string;
   equipements: string[];
   interventions: string[];
+  /**
+   * Les rubriques du rapport type du métier, dans l’ordre où il les
+   * présente. Facultatif : la page n’affiche la section que si elle existe.
+   */
+  rapport?: string[];
   photo: string;
 };
 
@@ -38,6 +51,7 @@ export const METIERS: Metier[] = [
   {
     slug: "ramonage",
     nom: "Ramonage",
+    partitif: "du ramonage",
     requete: "logiciel de ramonage",
     categorie: "Entretien réglementaire",
     couleur: "#0F3D4C",
@@ -56,6 +70,7 @@ export const METIERS: Metier[] = [
   {
     slug: "chauffage",
     nom: "Chauffage",
+    partitif: "du chauffage",
     requete: "logiciel d’entretien de chaudière",
     categorie: "Entretien et dépannage",
     couleur: "#E2610F",
@@ -74,6 +89,7 @@ export const METIERS: Metier[] = [
   {
     slug: "climatisation",
     nom: "Climatisation",
+    partitif: "de la climatisation",
     requete: "logiciel d’entretien de climatisation",
     categorie: "Froid et traitement d’air",
     couleur: "#2F9EC2",
@@ -92,6 +108,7 @@ export const METIERS: Metier[] = [
   {
     slug: "serrurier",
     nom: "Serrurerie",
+    partitif: "de la serrurerie",
     requete: "logiciel pour serrurier",
     categorie: "Urgence et sécurité",
     couleur: "#B08D3A",
@@ -110,6 +127,7 @@ export const METIERS: Metier[] = [
   {
     slug: "piscine",
     nom: "Piscine",
+    partitif: "de l’entretien de piscines",
     requete: "logiciel d’entretien de piscine",
     categorie: "Entretien saisonnier",
     couleur: "#00A0A8",
@@ -128,6 +146,7 @@ export const METIERS: Metier[] = [
   {
     slug: "nuisibles",
     nom: "Nuisibles",
+    partitif: "de la lutte contre les nuisibles",
     requete: "logiciel de dératisation",
     categorie: "Lutte intégrée",
     couleur: "#6E9A2E",
@@ -146,6 +165,7 @@ export const METIERS: Metier[] = [
   {
     slug: "traitement-eau",
     nom: "Traitement de l’eau",
+    partitif: "du traitement de l’eau",
     requete: "logiciel de traitement de l’eau",
     categorie: "Qualité de l’eau",
     couleur: "#1E7FB8",
@@ -160,6 +180,37 @@ export const METIERS: Metier[] = [
     equipements: ["Adoucisseur", "Osmoseur", "Filtre à sédiments", "Stérilisateur UV", "Pompe doseuse", "Surpresseur", "Ballon d'eau chaude", "Réseau de distribution"],
     interventions: ["Entretien annuel", "Analyse d'eau", "Changement de consommable", "Désinfection du réseau", "Mise en service", "Dépannage"],
     photo: "/metiers/traitement-eau.svg",
+  },
+  {
+    // ⚠️ Catalogue rédigé avant le vertical : il n’existe pas encore
+    // d’application Vennora-Securite-Incendie dont il serait extrait. À
+    // aligner sur `src/verticals/securite-incendie/index.ts` quand il sera
+    // écrit, et à ne pas mettre en ligne avant.
+    slug: "securite-incendie",
+    nom: "Sécurité incendie",
+    partitif: "de la sécurité incendie",
+    requete: "logiciel de vérification incendie",
+    categorie: "Vérifications réglementaires",
+    couleur: "#D7372B",
+    couleurTexte: "#B8291F",
+    accroche:
+      "Quarante extincteurs, douze BAES et un volet de désenfumage sur le même site : la vérification se fait appareil par appareil, et chacune finit au registre de sécurité.",
+    resume:
+      "Extincteurs, BAES, RIA, désenfumage. Chaque appareil repéré par son QR code, vérifié et consigné ; le rapport sort prêt à joindre au registre de sécurité.",
+    exemples: ["Extincteur", "BAES", "Désenfumage"],
+    reglementation:
+      "Périodicités : extincteurs, robinets d'incendie armés, éclairage de sécurité et désenfumage se vérifient au moins une fois par an — règles APSAD R4 et R5, norme NF S 61-919 pour les extincteurs, code du travail (art. R. 4227-39) et, en ERP, règlement de sécurité de l'arrêté du 25 juin 1980. Les extincteurs ajoutent une maintenance additionnelle et une révision à cinq et dix ans selon leur type. Chaque vérification est consignée au registre de sécurité. On retient 12 mois par défaut, modifiable par équipement.",
+    equipements: ["Extincteur", "Robinet d'incendie armé (RIA)", "Bloc autonome d'éclairage de sécurité (BAES)", "Désenfumage naturel", "Désenfumage mécanique", "Système de sécurité incendie (SSI)", "Alarme incendie", "Détecteur de fumée", "Porte coupe-feu", "Colonne sèche"],
+    interventions: ["Vérification annuelle", "Maintenance additionnelle", "Révision décennale", "Recharge / remplacement", "Mise en service", "Levée de réserves", "Dépannage"],
+    rapport: [
+      "Site et exploitant, avec le numéro du registre de sécurité",
+      "Liste des appareils vérifiés : numéro, emplacement, type, capacité, année de fabrication",
+      "Pour chaque appareil : contrôles effectués et résultat (conforme, réserve, hors service)",
+      "Appareils rechargés, remplacés ou à prévoir, avec leur échéance",
+      "Réserves et anomalies, classées par gravité, avec photo",
+      "Signatures de l'exploitant et du technicien, date de la prochaine vérification",
+    ],
+    photo: "/metiers/securite-incendie.svg",
   },
 ];
 

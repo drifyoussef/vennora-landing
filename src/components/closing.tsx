@@ -23,14 +23,16 @@ export function Pricing() {
           Pro inclut trois utilisateurs, Business dix : embaucher un technicien
           ne coûte pas une licence de plus dès le premier jour. Pas de frais de
           mise en service, pas de palier sur le nombre de clients ou
-          d’équipements. Essai gratuit, sans engagement.
+          d’équipements. Essai gratuit de {SITE.essaiJours} jours, sans carte
+          bancaire et sans engagement.
         </p>
       </div>
 
       <GrilleTarifs />
 
       <p className="reveal text-ink-soft mt-8 text-center text-[13.5px]">
-        Aucune carte bancaire requise · Annulation à tout moment
+        Prix hors taxes · Essai gratuit {SITE.essaiJours} jours · Aucune carte
+        bancaire requise · Annulation à tout moment
       </p>
 
       {/* Au-delà de dix utilisateurs, le prix se discute : autant le dire. */}
@@ -54,13 +56,16 @@ export function Pricing() {
         </a>
       </div>
 
-      {/* Offre de lancement : elle a une raison d’être — les premiers clients
-          acceptent un produit jeune contre un prix tenu dans la durée. */}
+      {/* Tarif de lancement : il a une raison d’être — les premiers clients
+          acceptent un produit jeune contre un prix tenu dans la durée. On dit
+          « de lancement », pas « remise » : il n’y a pas encore de prix
+          pratiqué dont il serait la réduction. */}
       <div className="reveal bg-amber-soft/60 border-amber/30 mt-6 flex flex-col gap-4 rounded-2xl border border-dashed p-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink text-[14.5px]">
-          <span className="text-amber-deep font-semibold">Offre fondateur : </span>
-          <span className="font-semibold">−20&nbsp;%</span> sur le forfait de
-          votre choix, pour les premières entreprises qui nous rejoignent.{" "}
+          <span className="text-amber-deep font-semibold">Tarif de lancement : </span>
+          <span className="font-semibold">20&nbsp;% sous le tarif public</span>{" "}
+          sur le forfait de votre choix, pour les premières entreprises qui
+          nous rejoignent.{" "}
           <span className="text-ink-soft">Prix garanti deux ans.</span>
         </p>
         <a
@@ -90,7 +95,7 @@ export const QUESTIONS: [string, string][] = [
   ],
   [
     "Le prix augmente à chaque technicien embauché ?",
-    "Non. L’abonnement est celui de l’entreprise : trois utilisateurs compris dans l’offre Pro, dix dans l’offre Business. Au-delà du forfait, un utilisateur supplémentaire coûte 20 € par mois. Un renfort saisonnier ne fait pas basculer votre budget.",
+    "Non. L’abonnement est celui de l’entreprise : trois utilisateurs compris dans l’offre Pro, dix dans l’offre Business. Au-delà du forfait, un utilisateur supplémentaire coûte 20 € HT par mois. Un renfort saisonnier ne fait pas basculer votre budget.",
   ],
   [
     "Que deviennent mes données si j’arrête ?",
@@ -165,7 +170,7 @@ export function Demo() {
             </p>
             <ul className="mt-8 space-y-3">
               {[
-                "Aucune carte bancaire",
+                `${SITE.essaiJours} jours gratuits, sans carte bancaire`,
                 "Vos données exportables à tout moment",
                 "Accompagnement à la reprise de votre fichier clients",
               ].map((p) => (
@@ -254,7 +259,7 @@ export function Footer() {
             <p className="text-[12px] font-semibold text-white tracking-[0.12em] uppercase">
               Métiers
             </p>
-            {/* Les sept, pas quatre : le pied de page est le seul endroit du
+            {/* Tous, pas quatre : le pied de page est le seul endroit du
                 site où elles tiennent toutes, et trois d’entre elles n’étaient
                 atteignables que par le plan du site. */}
             {METIERS.map((m) => (

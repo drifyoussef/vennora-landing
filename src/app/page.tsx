@@ -5,6 +5,7 @@ import { Trades } from "@/components/trades";
 import { Demo, Faq, Footer, Pricing, QUESTIONS } from "@/components/closing";
 import { JsonLd } from "@/components/jsonld";
 import { Preuve } from "@/components/preuve";
+import { Historique, Rapport } from "@/components/rapport";
 
 export default function Page() {
   return (
@@ -20,6 +21,8 @@ export default function Page() {
         <div data-fond="clair">
           <Chain />
           <Features />
+          <Rapport />
+          <Historique />
         </div>
         <div data-fond="sombre">
           <Field />

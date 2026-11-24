@@ -21,6 +21,12 @@ export const SITE = {
    */
   calendrier: "https://cal.com/youssef-drif-fty6jo/30min",
 
+  /**
+   * Durée de l’essai gratuit, en jours. Reprise par la grille, la carte
+   * d’essai, les pages métier et les CGV : la changer ici suffit.
+   */
+  essaiJours: 14,
+
   editeur: {
     raisonSociale: "Youssef DRIF",
     nomCommercial: "YD Development",

@@ -32,15 +32,21 @@ export default function Cgv() {
           Le service est réservé aux professionnels. Le client crée les comptes
           de ses utilisateurs et reste responsable de leur usage et de la
           confidentialité de leurs identifiants. Chaque offre comprend un
-          nombre d’utilisateurs indiqué sur la page des tarifs ; au-delà, tout
-          utilisateur supplémentaire est facturé au tarif en vigueur.
+          nombre d’utilisateurs indiqué sur la page des tarifs. Sur les offres
+          qui le prévoient, tout utilisateur actif au-delà est facturé au tarif
+          en vigueur, au prorata de la période ; l’offre Essentiel n’en admet
+          pas.
         </p>
 
         <h2>3. Essai gratuit</h2>
         <p>
-          L’essai est gratuit, sans saisie de carte bancaire et sans engagement.
-          À son terme, l’accès est suspendu à défaut de souscription ; les
-          données sont conservées trente jours, puis supprimées.
+          L’essai dure {SITE.essaiJours} jours et donne accès aux
+          fonctionnalités de l’offre Pro. Il est gratuit, sans saisie de carte
+          bancaire et sans engagement. Une offre souscrite pendant l’essai ne
+          l’écourte pas : le premier prélèvement intervient à son terme.
+          À défaut de souscription, le compte passe en lecture seule : les
+          données restent consultables mais ne peuvent plus être modifiées.
+          Elles sont conservées trente jours, puis supprimées.
         </p>
 
         <h2>4. Prix et paiement</h2>

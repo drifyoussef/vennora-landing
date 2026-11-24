@@ -12,9 +12,10 @@ import { metadonnees } from "@/lib/metadonnees";
  * Une page par métier.
  *
  * Raison d’être : une entreprise ne cherche pas « logiciel de gestion
- * d’interventions », elle cherche « logiciel de ramonage ». Sept pages, sept
- * requêtes, sept catalogues réels — et pas sept fois le même texte avec un
- * mot changé, ce que les moteurs comme les lecteurs repèrent immédiatement.
+ * d’interventions », elle cherche « logiciel de ramonage ». Une page par
+ * requête, un catalogue réel par page — et pas huit fois le même texte avec
+ * un mot changé, ce que les moteurs comme les lecteurs repèrent
+ * immédiatement.
  */
 export function generateStaticParams() {
   return METIERS.map((m) => ({ slug: m.slug }));
@@ -88,12 +89,12 @@ export default async function MetierPage({
               Voir les tarifs
             </Link>
             <span className="text-ink-soft text-[13.5px]">
-              Sans carte bancaire
+              {SITE.essaiJours} jours gratuits, sans carte bancaire
             </span>
           </div>
         }
       >
-        <h2>Ce que Vennora change pour un professionnel du {m.nom.toLowerCase()}</h2>
+        <h2>Ce que Vennora change pour un professionnel {m.partitif}</h2>
         <dl>
           {APPORTS.map(([titre, texte]) => (
             <div key={titre}>
@@ -145,6 +146,32 @@ export default async function MetierPage({
           </div>
         </div>
 
+        {m.rapport && (
+          <>
+            <h2>Le rapport type</h2>
+            <p>
+              Le rapport reprend la forme que le métier attend. Il se remplit
+              pendant la visite et sort en PDF signé à la fin de
+              l’intervention.
+            </p>
+            <ol className="not-prose border-line mt-6 divide-y divide-[var(--color-line)] rounded-2xl border bg-white">
+              {m.rapport.map((r, i) => (
+                <li key={r} className="flex items-start gap-4 px-6 py-4">
+                  <span
+                    className="grid size-6 shrink-0 place-items-center rounded-full text-[12px] font-semibold text-white"
+                    style={{ background: m.couleurTexte }}
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="text-ink-soft text-[14.5px] leading-relaxed">
+                    {r}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+
         <h2>Périodicités et cadre</h2>
         <p>{m.reglementation}</p>
         <p className="text-[14px]">
@@ -157,7 +184,7 @@ export default async function MetierPage({
         <p>
           Le cœur de Vennora est commun à tous : clients, sites, équipements,
           interventions, comptes-rendus. Seul le catalogue change. Une
-          entreprise qui fait du {m.nom.toLowerCase()} et un autre métier les
+          entreprise qui fait {m.partitif} et un autre métier les
           gère dans le même compte.
         </p>
 

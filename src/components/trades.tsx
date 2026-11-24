@@ -128,7 +128,7 @@ export function Trades() {
         </div>
       </div>
 
-      {/* Les sept métiers, au-dessus du carrousel : ils servent de sommaire
+      {/* Les métiers, au-dessus du carrousel : ils servent de sommaire
           autant que de commande. */}
       <div className="reveal reveal-1 mt-12">
         <ul className="flex flex-wrap justify-center gap-2">

@@ -14,7 +14,7 @@ const geist = Geist({
 
 const title = "Vennora — le logiciel des métiers d’intervention";
 const description =
-  "Clients, équipements, planning, comptes-rendus signés : Vennora suit l’intervention du parc client au rapport envoyé. Ramonage, chauffage, climatisation, serrurerie, piscine, nuisibles, traitement de l’eau.";
+  "Clients, équipements, planning, comptes-rendus signés : Vennora suit l’intervention du parc client au rapport envoyé. Ramonage, chauffage, climatisation, serrurerie, piscine, nuisibles, traitement de l’eau, sécurité incendie.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domaine),
