@@ -88,7 +88,7 @@ function Etat({
 ------------------------------------------------------------------------- */
 const CONTENU = [
   ["Client et site", "Coordonnées et adresse du chantier"],
-  ["Équipement", "Type de conduit, emplacement, QR code"],
+  ["Équipement", "Type de conduit, emplacement"],
   ["Photos", "Avant et après intervention"],
   ["Compte-rendu", "Constat, travaux réalisés, recommandations"],
   ["Conformité", "Points de contrôle et anomalies"],
@@ -160,20 +160,17 @@ function Document() {
             06 39 98 73 20 · m.lefevre@exemple.fr
           </p>
         </div>
-        <div className="border-line bg-paper flex items-start justify-between gap-3 rounded-md border p-3">
-          <div>
-            <p className={ETIQUETTE}>Équipement</p>
-            <p className="mt-1.5 text-[10.5px] font-semibold sm:text-[11px]">
-              Poêle à bois Jøtul F 305
-            </p>
-            <p className="text-ink-soft text-[10px] leading-snug sm:text-[10.5px]">
-              Conduit bois · boisseaux Ø 150
-            </p>
-            <p className="text-ink-soft mt-1 text-[10px] leading-snug sm:text-[10.5px]">
-              Salon, rez-de-chaussée · EQ-0142
-            </p>
-          </div>
-          <QrDecor className="text-ink size-11 shrink-0" />
+        <div className="border-line bg-paper rounded-md border p-3">
+          <p className={ETIQUETTE}>Équipement</p>
+          <p className="mt-1.5 text-[10.5px] font-semibold sm:text-[11px]">
+            Poêle à bois Jøtul F 305
+          </p>
+          <p className="text-ink-soft text-[10px] leading-snug sm:text-[10.5px]">
+            Conduit bois · boisseaux Ø 150
+          </p>
+          <p className="text-ink-soft mt-1 text-[10px] leading-snug sm:text-[10.5px]">
+            Salon, rez-de-chaussée · EQ-0142
+          </p>
         </div>
       </div>
 
